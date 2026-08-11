@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contlify - The ultimate AI-powered content automation platform. Generate, optimize, and publish SEO-perfect content on autopilot.">
+    <meta name="author" >
+    <title>Contlify | AI Content Automation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            900: '#060b19', 
+                            800: '#0f172a', 
+                            700: '#1e293b', 
+                        },
+                        brand: {
+                            teal: '#10b981', 
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: black; color: #cbd5e1; }
+        .glass-icon { background: white; border-radius: 12px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-teal selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="border-b border-navy-700/50 bg-navy-900/80 backdrop-blur-md fixed w-full z-50 top-0">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-orange-500 rounded text-white flex items-center justify-center font-bold text-xl"><i class="fa-solid fa-feather"></i></div>
+                <span class="font-bold text-2xl text-white">Contlify</span>
+            </div>
+            
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-gray-300">
+                <a href="#why-contlify" class="hover:text-white transition">Why Contlify</a>
+                <a href="#how-it-works" class="hover:text-white transition">How it Works</a>
+                <a href="#use-cases" class="hover:text-white transition">Use Cases</a>
+            </div>
+
+            
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative pt-40 pb-20 px-4 overflow-hidden flex items-center justify-center">
+       
+
+        <div class="text-center max-w-4xl mx-auto relative z-10">
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6 leading-tight">
+                Automate Your <br />
+                <span class="text-brand-teal">Content Creation</span>
+            </h1>
+            <p class="mt-6 text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+                The AI-powered platform that generates, optimizes, and publishes SEO-perfect content. Scale your organic traffic without the content bottleneck.
+            </p>
+           
+        </div>
+    </div>
+
+    <!-- Stats & Integrations -->
+    <div class="py-16 border-y border-navy-700/50 bg-navy-800/30">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center mb-16">
+            <div>
+                
+            </div>
+            <div>
+                
+            </div>
+            <div>
+                
+            </div>
+            <div>
+                
+            </div>
+        </div>
+
+        <div class="text-center">
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-6">Integrates With Your Favorite Platforms</h3>
+            <div class="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto px-4">
+                <div class="bg-navy-900 border border-navy-700 px-6 py-3 rounded-full flex items-center gap-2 text-sm font-medium"><i class="fa-brands fa-wordpress text-blue-400"></i> WordPress</div>
+                <div class="bg-navy-900 border border-navy-700 px-6 py-3 rounded-full flex items-center gap-2 text-sm font-medium"><i class="fa-solid fa-w text-blue-600"></i> Webflow</div>
+                <div class="bg-navy-900 border border-navy-700 px-6 py-3 rounded-full flex items-center gap-2 text-sm font-medium"><i class="fa-brands fa-shopify text-green-500"></i> Shopify</div>
+                <div class="bg-navy-900 border border-navy-700 px-6 py-3 rounded-full flex items-center gap-2 text-sm font-medium"><i class="fa-brands fa-medium text-white"></i> Medium</div>
+                <div class="bg-navy-900 border border-navy-700 px-6 py-3 rounded-full flex items-center gap-2 text-sm font-medium"><i class="fa-solid fa-n text-white"></i> Notion</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Why Choose Contlify (Features) -->
+    <div id="why-contlify" class="py-24 max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="text-brand-teal text-xs font-bold px-4 py-1.5 rounded-full border border-navy-700 uppercase tracking-wider">Powerful Features</span>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mt-6 mb-4">Why Choose Contlify?</h2>
+            <p class="text-gray-400 text-lg">Designed for serious content marketers, SaaS companies, and digital agencies who want to dominate organic search and eliminate the content bottleneck.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700">
+                <div class="w-10 h-10 bg-emerald-500/20 text-emerald-400 rounded-lg flex items-center justify-center mb-6"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <h3 class="font-bold text-xl text-white mb-3">AI Blog Generation</h3>
+                <p class="text-gray-400 text-sm">Generate complete, readable, long-form articles in seconds from a single topic. Supports listicles, guides, and reviews.</p>
+            </div>
+            <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700">
+                <div class="w-10 h-10 bg-blue-500/20 text-blue-400 rounded-lg flex items-center justify-center mb-6"><i class="fa-solid fa-layer-group"></i></div>
+                <h3 class="font-bold text-xl text-white mb-3">Multi-Platform Publishing</h3>
+                <p class="text-gray-400 text-sm">Connect WordPress, Webflow, and Shopify simultaneously. Sync your content library across all channels automatically.</p>
+            </div>
+            <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700">
+                <div class="w-10 h-10 bg-green-500/20 text-green-400 rounded-lg flex items-center justify-center mb-6"><i class="fa-solid fa-chart-line"></i></div>
+                <h3 class="font-bold text-xl text-white mb-3">Advanced SEO Optimization</h3>
+                <p class="text-gray-400 text-sm">Automatic keyword research, meta tags, schema markup, and internal linking to ensure high ranking.</p>
+            </div>
+            <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700">
+                <div class="w-10 h-10 bg-orange-500/20 text-orange-400 rounded-lg flex items-center justify-center mb-6"><i class="fa-regular fa-calendar-check"></i></div>
+                <h3 class="font-bold text-xl text-white mb-3">Smart Scheduling</h3>
+                <p class="text-gray-400 text-sm">Plan months in advance. AI picks optimal posting times for maximum engagement based on your audience.</p>
+            </div>
+            <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700">
+                <div class="w-10 h-10 bg-indigo-500/20 text-indigo-400 rounded-lg flex items-center justify-center mb-6"><i class="fa-solid fa-copy"></i></div>
+                <h3 class="font-bold text-xl text-white mb-3">Bulk Generation</h3>
+                <p class="text-gray-400 text-sm">Generate 100+ articles in a single batch. Create topic clusters and scale your operations instantly.</p>
+            </div>
+            <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700">
+                <div class="w-10 h-10 bg-brand-teal/20 text-brand-teal rounded-lg flex items-center justify-center mb-6"><i class="fa-solid fa-shield-check"></i></div>
+                <h3 class="font-bold text-xl text-white mb-3">Plagiarism-Free Guarantee</h3>
+                <p class="text-gray-400 text-sm">Every article passes Copyscape checks. 100% original content that avoids duplicate penalties.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <div id="how-it-works" class="py-24 bg-navy-900 border-t border-navy-700/50 px-6 text-center">
+        <div class="max-w-6xl mx-auto">
+            <span class="text-brand-teal text-xs font-bold px-4 py-1.5 rounded-full border border-navy-700 uppercase tracking-wider">Simple 3-Step Process</span>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mt-6 mb-4">How It Works</h2>
+            <p class="text-gray-400 mb-16">Start automating your content strategy in minutes, not months.</p>
+            
+            <div class="grid md:grid-cols-3 gap-8 text-left">
+                <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700 relative pt-12">
+                    <div class="absolute -top-4 -left-4 bg-blue-600 text-white font-bold px-4 py-2 rounded-xl text-lg shadow-lg">01</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Connect Your CMS</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Link your WordPress, Webflow, or Shopify in one click. We sync with your existing content automatically.</p>
+                </div>
+                <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700 relative pt-12">
+                    <div class="absolute -top-4 -left-4 bg-emerald-500 text-white font-bold px-4 py-2 rounded-xl text-lg shadow-lg">02</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Generate Content</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Enter your niche keywords or let AI analyze your market to find high-traffic content opportunities.</p>
+                </div>
+                <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700 relative pt-12">
+                    <div class="absolute -top-4 -left-4 bg-cyan-500 text-white font-bold px-4 py-2 rounded-xl text-lg shadow-lg">03</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Publish & Scale</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Set your schedule and watch as fully optimized, plagiarism-free articles go live automatically.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Who is it for? (Use Cases) -->
+    <div id="use-cases" class="py-24 border-t border-navy-700/50 bg-navy-800/30 px-6">
+        <div class="max-w-6xl mx-auto text-center">
+            <span class="text-brand-teal text-xs font-bold px-4 py-1.5 rounded-full border border-navy-700 uppercase tracking-wider">Built for Growth</span>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mt-6 mb-4">Who is Contlify For?</h2>
+            <p class="text-gray-400 mb-16 max-w-2xl mx-auto">See how different teams use our platform to eliminate the content bottleneck and scale revenue.</p>
+
+            <div class="grid md:grid-cols-3 gap-8 text-left">
+                <!-- SaaS Companies -->
+                <div class="bg-navy-900 p-8 rounded-2xl border border-navy-700 hover:-translate-y-1 transition duration-300">
+                    <div class="text-brand-teal text-5xl font-extrabold mb-2">300%</div>
+                    <div class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-6">Traffic Increase</div>
+                    <h3 class="text-2xl font-bold text-white mb-3">SaaS Companies</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Build organic traffic with consistent content to scale your user base without spending thousands on paid ads.</p>
+                </div>
+                
+                <!-- E-commerce Stores -->
+                <div class="bg-navy-900 p-8 rounded-2xl border border-navy-700 hover:-translate-y-1 transition duration-300">
+                    <div class="text-brand-teal text-5xl font-extrabold mb-2">70%</div>
+                    <div class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-6">Leads from Organic</div>
+                    <h3 class="text-2xl font-bold text-white mb-3">E-commerce Stores</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Generate in-depth product guides, listicles, and seasonal content to capture high-intent shoppers directly from search.</p>
+                </div>
+
+                <!-- Marketing Agencies -->
+                <div class="bg-navy-900 p-8 rounded-2xl border border-navy-700 hover:-translate-y-1 transition duration-300">
+                    <div class="text-brand-teal text-5xl font-extrabold mb-2">5x</div>
+                    <div class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-6">Output Multiplier</div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Marketing Agencies</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Manage content generation and publishing for 10+ clients from a single dashboard. Scale your revenue, not your headcount.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+
+    <!-- Footer -->
+    <footer class="bg-[#040812] py-12 px-6 border-t border-navy-700/50 text-center md:text-left">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 bg-orange-500 rounded text-white flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-feather"></i></div>
+                <span class="font-bold text-xl text-white">Contlify</span>
+            </div>
+            <div class="text-gray-500 text-sm">
+                <p>© 2026 Contlify. All rights reserved.</p>
+                <p class="mt-1">Powered by Sectem Technology</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
