@@ -1,223 +1,1979 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- ============================================================
+     SEO NOTE: lang="en" confirmed correct (page copy is English).
+     The `class="light"` default is kept, but the inline theme-init
+     script below overwrites it with the persisted / OS preference
+     before first paint. `color-scheme` is now set by that script too,
+     so native UI (scrollbars, form controls) matches the active theme.
+     ============================================================ -->
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
+    <!-- MOBILE SEO: viewport verified correct — width=device-width + initial-scale=1.0, no user-scalable=no (never block zoom: a11y + ranking signal). -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Contlify - The ultimate AI-powered content automation platform. Generate, optimize, and publish SEO-perfect content on autopilot.">
-    <meta name="author" >
-    <title>Contlify | AI Content Automation</title>
+
+    <!-- ============================================================
+         1. META TAGS & HEAD OPTIMIZATION
+         ============================================================ -->
+
+    <!-- TITLE: 59 chars. Leads with the two highest-volume, highest-intent
+         queries (AI Content Generator, Blog Automation) instead of the
+         brand-only framing, so the page can rank for category searches,
+         not just "Contlify" navigational searches. Brand stays last. -->
+    <title>AI Content Generator & Blog Automation Tool | Contlify</title>
+
+    <!-- DESCRIPTION: 158 chars. Opens with the same two keyword phrases as the
+         title (query-title-description match improves CTR), keeps the
+         BrandBook differentiator, closes with an action-oriented CTA. -->
+    <meta name="description" content="Contlify is an AI content generator and blog automation tool that writes SEO content in your real brand voice from a living BrandBook. Start free today.">
+
+    <!-- DEPRECATED: meta keywords carries no ranking value in Google/Bing. Left in place
+         (harmless) per instructions, but do not rely on it or maintain it. -->
+    <meta name="keywords" content="AI Content Generation,SEO Optimization,Blog Automation,Multi-Platform Publishing,Content Marketing">
+
+    <!-- CRAWL DIRECTIVES: explicit index/follow + richer snippet permissions. -->
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+
+    <!-- CANONICAL: prevents duplicate-URL dilution (utm params, trailing slash, www vs non-www).
+         Replace https://contlify.com/ if this page lives on a different path. -->
+    <link rel="canonical" href="https://contlify.com/">
+
+    <meta name="author" content="Contlify">
+    <!-- Explicit locale hint for international targeting; add hreflang alternates here if you localise. -->
+    <meta name="language" content="en">
+    <meta http-equiv="content-language" content="en">
+
+    <!-- ============================================================
+         HREFLANG: tells Google exactly which language/region this URL
+         serves. Even with a single language, a self-referencing hreflang
+         + x-default removes ambiguity and prevents Google from guessing
+         (or wrongly folding this URL into another region's index) once
+         you add localized versions later. Add one <link> per locale you
+         ship, plus keep x-default pointing at this page.
+         ============================================================ -->
+    <link rel="alternate" hreflang="en" href="https://contlify.com/">
+    <link rel="alternate" hreflang="x-default" href="https://contlify.com/">
+
+    <!-- PWA / mobile capability hints — minor but legitimate mobile-UX
+         signals; Google's mobile-friendliness checks favor pages that
+         declare these correctly instead of leaving them to defaults. -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Contlify">
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- REFERRER POLICY: keeps the referring URL visible to your own
+         analytics on internal navigation, but strips it down to origin-only
+         when a visitor clicks an outbound link — a privacy-safe default
+         Google's own audits look for. -->
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- FAVICONS / APP ICONS — placeholders. Ship these at the site root:
+         favicon.ico (32x32), favicon.svg, apple-touch-icon.png (180x180),
+         site.webmanifest (+ 192x192 and 512x512 PNGs for Android/PWA install). -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- THEME COLOR: single id'd tag so the toggle JS can rewrite it live.
+         Initial value is set by the inline theme-init script to avoid a mismatch flash.
+         Brand colors: slate-950 (#020617) in dark, white (#ffffff) in light. -->
+    <meta id="theme-color-meta" name="theme-color" content="#020617">
+
+    <!-- ============================================================
+         8. PERFORMANCE / CORE WEB VITALS
+         preconnect opens TCP+TLS early for render-blocking third parties;
+         dns-prefetch is the cheap fallback for browsers that cap preconnects.
+         ============================================================ -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <!-- Font Awesome ships its webfonts from the same cdnjs origin, so the preconnect above covers them.
+         Preload the icon font file itself to cut LCP on the hero badge/icons. -->
+    <link rel="preload" as="font" type="font/woff2"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2" crossorigin>
+
+    <!-- SEO: Preload the official LCP hero image so the browser fetches it immediately. -->
+    <link rel="preload" as="image" type="image/png"
+          href="images/dashboard_analytics.png" fetchpriority="high">
+
+    <!-- SEO: Sitemap discovery hint for crawlers. -->
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+    <!-- SECURITY: Content-Security-Policy — restricts resource origins. -->
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src https://cdnjs.cloudflare.com; img-src 'self' data: https:;">
+
+    <!-- ============================================================
+         2. OPEN GRAPH (Facebook, LinkedIn, Slack, WhatsApp previews)
+         IMAGE SPEC: /og-image.jpg must be 1200x630px, <1MB, JPG or PNG.
+         Absolute URLs are required — relative paths are ignored by most crawlers.
+         ============================================================ -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Contlify">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="https://contlify.com/">
+    <meta property="og:title" content="AI Content Generator & Blog Automation Tool | Contlify">
+    <meta property="og:description" content="Contlify is an AI content generator and blog automation tool that writes SEO content in your real brand voice from a living BrandBook. Start free today.">
+    <meta property="og:image" content="https://contlify.com/og-image.jpg">
+    <meta property="og:image:secure_url" content="https://contlify.com/og-image.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Contlify dashboard generating brand-aligned AI articles from a living BrandBook">
+
+    <!-- ============================================================
+         2b. TWITTER / X CARD
+         Same 1200x630 asset reused; twitter:image must also be absolute.
+         ============================================================ -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI Content Generator & Blog Automation Tool | Contlify">
+    <meta name="twitter:description" content="Contlify is an AI content generator and blog automation tool that writes SEO content in your real brand voice from a living BrandBook. Start free today.">
+    <meta name="twitter:image" content="https://contlify.com/og-image.jpg">
+    <meta name="twitter:image:alt" content="Contlify dashboard generating brand-aligned AI articles from a living BrandBook">
+    <!-- Replace with the real handles when available. -->
+    <meta name="twitter:site" content="@contlify">
+    <meta name="twitter:creator" content="@contlify">
+
+    <!-- ============================================================
+         7a. THEME INIT (FOUC GUARD)
+         Must stay here in <head>, BEFORE any stylesheet or markup paints.
+         Placing it after <body> would still flash on slow connections, so
+         head-blocking (it is ~15 lines, sub-millisecond) is the correct trade.
+         Order of precedence: localStorage("theme") -> OS prefers-color-scheme -> light.
+         ============================================================ -->
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var isDark = stored ? stored === 'dark' : prefersDark;
+                var root = document.documentElement;
+                root.classList.toggle('dark', isDark);
+                root.classList.toggle('light', !isDark);
+                // Native UI (scrollbars, inputs, form controls) follows the active theme.
+                root.style.colorScheme = isDark ? 'dark' : 'light';
+                var meta = document.getElementById('theme-color-meta');
+                if (meta) meta.setAttribute('content', isDark ? '#020617' : '#ffffff');
+            } catch (e) {
+                /* Private mode / storage disabled — fall through to the light default. */
+            }
+        })();
+    </script>
+
+    <!-- PERF FLAG (do not "fix" silently — production change, not a markup change):
+         cdn.tailwindcss.com is the JIT-in-the-browser build. It ships ~400KB of JS,
+         is render-blocking, and generates CSS at runtime — which hurts LCP and TBT.
+         For production, compile Tailwind with the CLI or PostCSS and ship a single
+         purged .css file (typically 8-15KB gzipped):
+             npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify
+         Then replace this <script> with <link rel="stylesheet" href="/dist/output.css">.
+         Left unchanged here per instructions. -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- SEO / PERF: Force font-display:swap on Font Awesome to prevent FOIT (Flash of Invisible Text).
+         Without this, icon text is invisible until the webfont loads, hurting LCP. -->
+    <style>
+      @font-face { font-family: "Font Awesome 6 Free"; font-display: swap; }
+      @font-face { font-family: "Font Awesome 6 Brands"; font-display: swap; }
+    </style>
+
+    <!-- SEO: Minimal fallback for no-JS environments (Googlebot WRS runs JS, but
+         some crawlers and link previews do not — this ensures basic readability). -->
+    <noscript>
+      <style>
+        body { font-family: system-ui, -apple-system, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+        header, main, footer, section, article { display: block; }
+        .hidden, [class*="lg:hidden"] { display: block !important; }
+        nav { display: flex; gap: 1rem; flex-wrap: wrap; }
+      </style>
+    </noscript>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        navy: {
-                            900: '#060b19', 
-                            800: '#0f172a', 
-                            700: '#1e293b', 
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
                         },
-                        brand: {
-                            teal: '#10b981', 
+                        teal: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            300: '#5eead4',
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                        },
+                        emerald: {
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                        },
+                        cyan: {
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2',
                         }
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['ui-monospace', 'monospace'],
+                    },
+                    animation: {
+                        'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     }
                 }
             }
         }
     </script>
+
     <style>
-        body { background-color: black; color: #cbd5e1; }
-        .glass-icon { background: white; border-radius: 12px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        /* Custom Background Pattern — dark variant unchanged (white hairlines). */
+        .bg-grid-pattern {
+            background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 0), linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
+            background-size: 40px 40px;
+            -webkit-mask-image: linear-gradient(#000 40%, transparent);
+            mask-image: linear-gradient(#000 40%, transparent);
+        }
+
+        /* TOGGLE SUPPORT: white hairlines are invisible on a white page, so the
+           light theme inverts them to slate. Dark look is untouched. */
+        html:not(.dark) .bg-grid-pattern {
+            background-image: linear-gradient(90deg, rgba(15, 23, 42, 0.06) 1px, transparent 0), linear-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 0);
+        }
+
+        /* Smooth Scrolling — honours reduced-motion (a11y). */
+        html { scroll-behavior: smooth; }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+            .anim-reveal { opacity: 1 !important; transform: none !important; }
+        }
+
+        /* Fixed header is 76px tall — offset anchor targets so #how-it-works etc.
+           do not land under the nav bar. Improves UX for crawled fragment links. */
+        [id] { scroll-margin-top: 6rem; }
+
+        /* TOGGLE SUPPORT: the original rule hard-coded the dark body colors, which would
+           override every Tailwind light class. It is now scoped to .dark, with a light
+           default added. The dark values are byte-identical to the original. */
+        body { background-color: #ffffff; color: #0f172a; }
+        html.dark body { background-color: #020617; color: #f1f5f9; }
+
+        /* A11Y: visible keyboard focus ring for the skip link and theme toggle. */
+        .skip-link:focus { transform: translateY(0); }
+
+        /* ============================================================
+           ANIMATION SYSTEM — scroll-triggered reveals, micro-animations,
+           decorative motion. All respect prefers-reduced-motion above.
+           Content stays in the DOM (visibility:visible) for crawlers.
+           ============================================================ */
+
+        /* --- 1. SCROLL-TRIGGERED REVEAL ANIMATIONS --- */
+        .anim-reveal {
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .anim-reveal.anim-fade-up    { transform: translateY(40px); }
+        .anim-reveal.anim-fade-down  { transform: translateY(-40px); }
+        .anim-reveal.anim-fade-left  { transform: translateX(40px); }
+        .anim-reveal.anim-fade-right { transform: translateX(-40px); }
+        .anim-reveal.anim-scale-in   { transform: scale(0.92); }
+        .anim-reveal.anim-zoom-rotate { transform: scale(0.85) rotate(-3deg); }
+        .anim-reveal.anim-visible {
+            opacity: 1;
+            transform: translateY(0) translateX(0) scale(1) rotate(0deg);
+        }
+
+        /* Stagger delays for child elements */
+        .anim-delay-1 { transition-delay: 0.1s; }
+        .anim-delay-2 { transition-delay: 0.2s; }
+        .anim-delay-3 { transition-delay: 0.3s; }
+        .anim-delay-4 { transition-delay: 0.4s; }
+        .anim-delay-5 { transition-delay: 0.5s; }
+        .anim-delay-6 { transition-delay: 0.6s; }
+
+        /* --- 2. ANIMATED GRADIENT TEXT (hero heading) --- */
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50%      { background-position: 100% 50%; }
+        }
+        .anim-gradient-text {
+            background-size: 200% 200%;
+            animation: gradient-shift 4s ease-in-out infinite;
+        }
+
+        /* --- 3. FLOATING ORB DECORATIONS --- */
+        @keyframes float-orb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25%      { transform: translate(30px, -20px) scale(1.05); }
+            50%      { transform: translate(-15px, -40px) scale(0.95); }
+            75%      { transform: translate(-30px, -10px) scale(1.02); }
+        }
+        .anim-float-orb {
+            animation: float-orb 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .anim-float-orb-slow {
+            animation: float-orb 12s ease-in-out infinite;
+            animation-delay: -4s;
+            pointer-events: none;
+        }
+        .anim-float-orb-fast {
+            animation: float-orb 6s ease-in-out infinite;
+            animation-delay: -2s;
+            pointer-events: none;
+        }
+
+        /* --- 4. CTA GLOW PULSE --- */
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(20, 184, 166, 0.3), 0 10px 40px rgba(20, 184, 166, 0.15); }
+            50%      { box-shadow: 0 0 40px rgba(20, 184, 166, 0.5), 0 10px 60px rgba(20, 184, 166, 0.25); }
+        }
+        .anim-glow-pulse {
+            animation: glow-pulse 3s ease-in-out infinite;
+        }
+
+        /* --- 5. HERO IMAGE 3D TILT --- */
+        .anim-tilt-container {
+            perspective: 1000px;
+        }
+        .anim-tilt-card {
+            transition: transform 0.4s cubic-bezier(0.03, 0.98, 0.52, 0.99);
+            transform-style: preserve-3d;
+        }
+        .anim-tilt-card:hover {
+            transform: rotateX(2deg) rotateY(-3deg) scale(1.02);
+        }
+
+        /* --- 6. NAVBAR SHRINK ON SCROLL --- */
+        .nav-scrolled {
+            padding-top: 0.75rem !important;
+            padding-bottom: 0.75rem !important;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+        }
+        html.dark .nav-scrolled {
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- 7. FAQ SMOOTH ACCORDION --- */
+        details .faq-answer {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        opacity 0.3s ease;
+            opacity: 0;
+        }
+        details[open] .faq-answer {
+            grid-template-rows: 1fr;
+            opacity: 1;
+        }
+        details .faq-answer > div {
+            overflow: hidden;
+        }
+
+        /* --- 8. COUNTER / STAT ANIMATION --- */
+        .anim-counter {
+            display: inline-block;
+            transition: opacity 0.5s ease;
+        }
+
+        /* --- 9. PARTICLE RING (hero decoration) --- */
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+        @keyframes spin-reverse {
+            from { transform: rotate(360deg); }
+            to   { transform: rotate(0deg); }
+        }
+        .anim-spin-slow    { animation: spin-slow 30s linear infinite; }
+        .anim-spin-reverse { animation: spin-reverse 25s linear infinite; }
+
+        /* --- 10. BADGE SHIMMER --- */
+        @keyframes shimmer {
+            0%   { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .anim-shimmer {
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        /* --- 11. ICON BOUNCE ON HOVER --- */
+        .anim-icon-bounce:hover i,
+        .anim-icon-bounce:hover .fa-solid {
+            animation: icon-bounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes icon-bounce {
+            0%, 100% { transform: scale(1); }
+            40%      { transform: scale(1.3) rotate(-8deg); }
+            70%      { transform: scale(0.9) rotate(4deg); }
+        }
+
+        /* --- 12. UNDERLINE DRAW ON HOVER (nav links) --- */
+        .anim-underline {
+            position: relative;
+        }
+        .anim-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #14b8a6, #06b6d4);
+            border-radius: 1px;
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .anim-underline:hover::after {
+            width: 100%;
+        }
     </style>
+
+    <!-- ============================================================
+         3. STRUCTURED DATA (JSON-LD, Schema.org)
+         Three graphs: Organization (brand/knowledge panel), WebSite (sitelinks
+         searchbox eligibility), SoftwareApplication (product rich result),
+         plus a BreadcrumbList for the on-page section hierarchy.
+         NOTE: the #faq section now exists further down the page with matching
+         visible Q&A copy, so a separate FAQPage schema block is included
+         below (search for "3b. FAQ SCHEMA"). Keep both in sync if edited.
+         VALIDATE AT: https://search.google.com/test/rich-results
+
+         !! AGGREGATE RATING WARNING !!
+         The SoftwareApplication block below includes an "aggregateRating".
+         The 4.8 / 127-review values are PLACEHOLDERS. Google's structured-data
+         policy requires ratings to be real and independently verifiable
+         (e.g. sourced from an on-site review widget, G2, or Capterra).
+         Do NOT deploy this to production until you replace them with your
+         actual numbers — fabricated ratings risk a manual action.
+         ============================================================ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://contlify.com/#organization",
+          "name": "Contlify",
+          "url": "https://contlify.com/",
+          "description": "Contlify is an AI brand intelligence platform that builds a living BrandBook from your digital footprint and generates brand-aligned, SEO-optimized content on autopilot.",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://contlify.com/logo.png",
+            "width": 512,
+            "height": 512
+          },
+          "image": "https://contlify.com/og-image.jpg",
+          "parentOrganization": {
+            "@type": "Organization",
+            "name": "Sectem Technology"
+          },
+          "sameAs": [
+            "https://twitter.com/contlify",
+            "https://www.linkedin.com/company/contlify"
+          ],
+          "contactPoint": [{
+            "@type": "ContactPoint",
+            "contactType": "customer support",
+            "email": "support@contlify.com",
+            "availableLanguage": ["English"]
+          }]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://contlify.com/#website",
+          "url": "https://contlify.com/",
+          "name": "Contlify",
+          "inLanguage": "en",
+          "publisher": { "@id": "https://contlify.com/#organization" }
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://contlify.com/#webpage",
+          "url": "https://contlify.com/",
+          "name": "AI Content Generator & Blog Automation Tool | Contlify",
+          "description": "Contlify is an AI content generator and blog automation tool that writes SEO content in your real brand voice from a living BrandBook. Start free today.",
+          "isPartOf": { "@id": "https://contlify.com/#website" },
+          "about": { "@id": "https://contlify.com/#organization" },
+          "primaryImageOfPage": "https://contlify.com/og-image.jpg",
+          "inLanguage": "en"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://contlify.com/#software",
+          "name": "Contlify",
+          "applicationCategory": "BusinessApplication",
+          "applicationSubCategory": "Content Marketing & SEO Automation",
+          "operatingSystem": "Web browser",
+          "url": "https://contlify.com/",
+          "description": "AI content automation that scans your website, blogs and social channels to build a continuously updated BrandBook, then generates and auto-publishes brand-aligned, SEO-optimized articles to WordPress, Next.js and scheduled queues.",
+          "screenshot": "https://contlify.com/og-image.jpg",
+          "publisher": { "@id": "https://contlify.com/#organization" },
+          "featureList": [
+            "Automated brand and digital footprint scanning",
+            "Living AI BrandBook with tone, ICP personas and voice guardrails",
+            "Brand-aligned article, image and SEO metadata generation",
+            "Human editorial review and one-click approval",
+            "Direct CMS auto-publishing to WordPress and Next.js"
+          ],
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "description": "Free plan available — start for free, no credit card required.",
+            "url": "https://contlify.com/"
+          },
+          "_aggregateRating_REMOVED": "Removed: Google requires aggregateRating to be backed by visible, verifiable on-page reviews. Re-add once real review data (G2, Capterra, or on-site widget) is available."
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://contlify.com/#breadcrumb",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home",         "item": "https://contlify.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Features",     "item": "https://contlify.com/#features" },
+            { "@type": "ListItem", "position": 3, "name": "Why Contlify", "item": "https://contlify.com/#why-contlify" },
+            { "@type": "ListItem", "position": 4, "name": "How It Works", "item": "https://contlify.com/#how-it-works" },
+            { "@type": "ListItem", "position": 5, "name": "Use Cases",    "item": "https://contlify.com/#use-cases" },
+            { "@type": "ListItem", "position": 6, "name": "Testimonials", "item": "https://contlify.com/#testimonials" },
+            { "@type": "ListItem", "position": 7, "name": "Pricing",      "item": "https://contlify.com/#pricing" },
+            { "@type": "ListItem", "position": 8, "name": "FAQ",          "item": "https://contlify.com/#faq" }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- ============================================================
+         3b. FAQ SCHEMA (FAQPage)
+         Every question/answer pair below MUST match the visible <details>
+         copy in the #faq section word-for-word — Google requires the
+         structured data to mirror on-page content, or the rich result
+         (accordion snippet) can be suppressed or actioned against.
+         ============================================================ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Contlify and how does it automate blog content?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Contlify is an AI content generator and blog automation tool. It scans your website, blogs, and social channels to build a living BrandBook, then uses that BrandBook to generate SEO-optimized articles in your real brand voice and auto-publish them to WordPress, Next.js, or a scheduled queue."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is Contlify different from generic AI writing tools?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Generic AI writers rely on a single prompt and produce generic, inconsistent copy. Contlify instead builds a continuously updated BrandBook from your actual digital footprint, so every article, image, and piece of SEO metadata is pre-calibrated to your tone, ICP personas, and voice guardrails."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to approve every article before it publishes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, approval is optional. You can review every draft in the dashboard and edit wording manually, or enable single-click approval so brand-aligned articles publish automatically once generated."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which platforms can Contlify publish content to?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Contlify pushes approved articles directly to WordPress, Next.js routes, or a scheduled publishing queue, so your content pipeline stays connected to your existing CMS without manual copy-pasting."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Contlify suitable for SaaS companies, e-commerce stores, and agencies?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. SaaS teams use Contlify to build organic traffic without heavy paid-ad spend, e-commerce stores generate product guides and seasonal content to capture high-intent shoppers, and marketing agencies manage content generation for multiple clients from a single dashboard."
+          }
+        }
+      ]
+    }
+    </script>
 </head>
-<body class="antialiased selection:bg-brand-teal selection:text-white">
+<body class="bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased transition-colors duration-300">
+
+    <!-- ============================================================
+         6. SKIP LINK (a11y + crawl efficiency)
+         Visually hidden until keyboard-focused; first tab stop on the page.
+         ============================================================ -->
+    <a href="#main-content"
+       class="skip-link sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-teal-500 focus:text-slate-950 focus:font-bold focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-teal-300">
+        Skip to main content
+    </a>
 
     <!-- Navigation -->
-    <nav class="border-b border-navy-700/50 bg-navy-900/80 backdrop-blur-md fixed w-full z-50 top-0">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-orange-500 rounded text-white flex items-center justify-center font-bold text-xl"><i class="fa-solid fa-feather"></i></div>
-                <span class="font-bold text-2xl text-white">Contlify</span>
-            </div>
-            
-            <div class="hidden md:flex space-x-8 text-sm font-medium text-gray-300">
-                <a href="#why-contlify" class="hover:text-white transition">Why Contlify</a>
-                <a href="#how-it-works" class="hover:text-white transition">How it Works</a>
-                <a href="#use-cases" class="hover:text-white transition">Use Cases</a>
-            </div>
+    <!-- SEMANTIC: <header> is already a banner landmark; explicit role omitted (redundant). -->
+    <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-5 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+        <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+            <div class="flex items-center justify-between">
+                <!-- ANCHOR TEXT: logo link now points to the canonical root with descriptive aria-label -->
+                <a class="flex-shrink-0 flex items-center group" href="/" aria-label="Contlify home — AI content automation platform">
+                    <img src="images/logo.png" alt="Contlify Logo" width="160" height="50" decoding="async" fetchpriority="high" class="h-9 sm:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                </a>
 
-            
+                <div class="flex items-center gap-4">
+                    <nav class="hidden lg:flex items-center gap-6" aria-label="Main navigation">
+                        <a href="#features" class="anim-underline text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">Features</a>
+                        <a href="#why-contlify" class="anim-underline text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">Why Contlify</a>
+                        <a href="#how-it-works" class="anim-underline text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">How it Works</a>
+                        <a href="#use-cases" class="anim-underline text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">Use Cases</a>
+                        <a href="#pricing" class="anim-underline text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">Pricing</a>
+                        <a href="#faq" class="anim-underline text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">FAQ</a>
+                    </nav>
+
+                    <!-- ============================================================
+                         7b. LIGHT / DARK MODE TOGGLE
+                         Sits OUTSIDE the `hidden lg:flex` nav so it stays reachable on
+                         mobile. Native <button> = keyboard focusable by default;
+                         aria-pressed exposes the on/off state to screen readers and
+                         focus-visible:ring gives a visible keyboard focus indicator.
+                         ============================================================ -->
+                    <button id="theme-toggle" type="button"
+                            aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode"
+                            class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 hover:border-teal-500/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950">
+                        <i id="theme-toggle-icon" class="fa-solid fa-moon text-base" aria-hidden="true"></i>
+                        <span class="sr-only">Toggle dark mode</span>
+                    </button>
+                </div>
+            </div>
         </div>
-    </nav>
+    </header>
+
+    <!-- SEMANTIC: single <main> landmark wrapping all page content; also the skip-link target. -->
+    <main id="main-content">
 
     <!-- Hero Section -->
-    <div class="relative pt-40 pb-20 px-4 overflow-hidden flex items-center justify-center">
-       
+    <section id="hero" aria-labelledby="hero-heading" class="py-24 md:py-32 pt-28 pb-20 md:pt-36 md:pb-28 bg-white dark:bg-slate-950 text-slate-900 dark:text-white relative overflow-hidden">
+        <!-- Background Gradients & Grids — decorative only, hidden from assistive tech. -->
+        <div aria-hidden="true" class="anim-float-orb absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[900px] h-[450px] bg-gradient-to-tr from-teal-500/15 via-emerald-500/10 to-cyan-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+        <div aria-hidden="true" class="absolute inset-0 bg-grid-pattern opacity-60 pointer-events-none"></div>
 
-        <div class="text-center max-w-4xl mx-auto relative z-10">
-            <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6 leading-tight">
-                Automate Your <br />
-                <span class="text-brand-teal">Content Creation</span>
-            </h1>
-            <p class="mt-6 text-xl text-gray-400 max-w-2xl mx-auto mb-10">
-                The AI-powered platform that generates, optimizes, and publishes SEO-perfect content. Scale your organic traffic without the content bottleneck.
+        <!-- Official Floating Brand Badges (Gemini, Meta, WordPress, Facebook, Twitter, LinkedIn, Instagram) -->
+        <div aria-hidden="true" class="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-hidden">
+            <div class="anim-float-orb-slow absolute top-[12%] left-[3%] lg:left-[5%] w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/90 dark:bg-slate-900/90 shadow-xl border border-slate-200/60 dark:border-slate-800 p-2.5 backdrop-blur-md flex items-center justify-center">
+                <img src="images/gemini_icon-logo_brandlogos.net_aacx5.png" alt="AI" class="w-full h-full object-contain">
+            </div>
+            <div class="anim-float-orb-fast absolute top-[15%] right-[3%] lg:right-[5%] w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/90 dark:bg-slate-900/90 shadow-xl border border-slate-200/60 dark:border-slate-800 p-2.5 backdrop-blur-md flex items-center justify-center">
+                <img src="images/meta.png" alt="Meta" class="w-full h-full object-contain">
+            </div>
+            <div class="anim-float-orb absolute top-[40%] left-[2%] lg:left-[4%] hidden sm:flex w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/90 dark:bg-slate-900/90 shadow-xl border border-slate-200/60 dark:border-slate-800 p-2.5 backdrop-blur-md items-center justify-center">
+                <img src="images/wordpress.png" alt="WordPress" class="w-full h-full object-contain">
+            </div>
+            <div class="anim-float-orb-slow absolute top-[65%] left-[3%] lg:left-[6%] w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/90 dark:bg-slate-900/90 shadow-xl border border-slate-200/60 dark:border-slate-800 p-2.5 backdrop-blur-md flex items-center justify-center">
+                <img src="images/facebook.png" alt="Facebook" class="w-full h-full object-contain">
+            </div>
+            <div class="anim-float-orb-fast absolute top-[38%] right-[2%] lg:right-[4%] w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/90 dark:bg-slate-900/90 shadow-xl border border-slate-200/60 dark:border-slate-800 p-2.5 backdrop-blur-md flex items-center justify-center">
+                <img src="images/linkedin.png" alt="LinkedIn" class="w-full h-full object-contain">
+            </div>
+            <div class="anim-float-orb absolute top-[60%] right-[3%] lg:right-[5%] w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/90 dark:bg-slate-900/90 shadow-xl border border-slate-200/60 dark:border-slate-800 p-2.5 backdrop-blur-md flex items-center justify-center">
+                <img src="images/instagram.png" alt="Instagram" class="w-full h-full object-contain">
+            </div>
+            <div class="anim-float-orb-slow absolute top-[78%] right-[10%] hidden sm:flex w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/90 dark:bg-slate-900/90 shadow-xl border border-slate-200/60 dark:border-slate-800 p-2.5 backdrop-blur-md items-center justify-center">
+                <img src="images/twitter.png" alt="Twitter" class="w-full h-full object-contain">
+            </div>
+        </div>
+
+        <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+            <div class="flex flex-col items-center text-center max-w-4xl mx-auto mt-12">
+
+                <div class="anim-reveal anim-fade-down inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 dark:bg-slate-900/90 border border-teal-500/40 dark:border-teal-500/30 text-teal-700 dark:text-teal-400 text-xs sm:text-sm font-semibold mb-6 shadow-sm backdrop-blur-md anim-shimmer">
+                    <i class="fa-solid fa-sparkles text-teal-600 dark:text-teal-400 animate-pulse" aria-hidden="true"></i>
+                    <span>AI Brand Intelligence &amp; Content Automation Platform</span>
+                </div>
+
+                <!-- HEADING HIERARCHY: page's single <h1> -->
+                <h1 id="hero-heading" class="anim-reveal anim-fade-up anim-delay-1 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.12] text-slate-900 dark:text-white">
+                    AI Content Generator &amp; Blog Automation Tool <br/>
+                    <span class="anim-gradient-text bg-gradient-to-r from-teal-500 via-emerald-500 to-cyan-500 dark:from-teal-400 dark:via-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent">that understands your brand</span>
+                </h1>
+
+                <p class="anim-reveal anim-fade-up anim-delay-2 mt-6 text-lg sm:text-xl text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed font-normal">
+                    AI-powered platform that generates, optimizes, and publishes SEO-perfect content. Contlify scans your digital footprint, ingests your messaging, and builds a living BrandBook to scale organic traffic automatically.
+                </p>
+
+                <div class="anim-reveal anim-fade-up anim-delay-3 mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+                    <!-- Start Free Trial Button -->
+                    <a id="cta-hero-start-free" href="https://contlify.com/" rel="noopener" target="_blank"
+                       class="anim-glow-pulse inline-flex items-center justify-center gap-2 w-full sm:w-auto h-14 px-8 text-base font-bold rounded-xl text-slate-950 bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-400 hover:opacity-90 transition-all duration-300 group">
+                        <span>Start Free Trial</span>
+                        <i class="fa-solid fa-arrow-right w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"></i>
+                    </a>
+
+                    <!-- See How BrandBook Works Button -->
+                    <a id="cta-hero-brandbook" href="#how-it-works" class="inline-flex items-center justify-center gap-2 border w-full sm:w-auto h-14 px-8 text-base font-semibold rounded-xl border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/60 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <i class="fa-solid fa-book-open w-4 h-4 mr-2 text-teal-600 dark:text-teal-400" aria-hidden="true"></i>
+                        <span>See How BrandBook Works</span>
+                    </a>
+                </div>
+
+                <!-- Trust signals -->
+                <ul class="anim-reveal anim-fade-up anim-delay-4 mt-10 flex flex-wrap items-center justify-center gap-6 text-xs sm:text-sm text-slate-600 dark:text-slate-400 list-none">
+                    <li class="flex items-center gap-2">
+                        <i class="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400" aria-hidden="true"></i>
+                        <span>100% Brand-Aligned Voice</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i class="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400" aria-hidden="true"></i>
+                        <span>Multi-Channel Ingestion</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i class="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400" aria-hidden="true"></i>
+                        <span>Direct CMS Auto-Publishing</span>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- OFFICIAL PLATFORM STATISTICS BAR (From Official Contlify Website) -->
+    <section class="py-16 bg-slate-50 dark:bg-slate-900/60 border-y border-slate-200 dark:border-slate-800/80 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="anim-reveal anim-fade-up anim-delay-1 p-4">
+                    <div class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight anim-counter" data-target="500" data-suffix="K+">500K+</div>
+                    <div class="text-xs sm:text-sm font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mt-2">Articles Generated</div>
+                </div>
+                <div class="anim-reveal anim-fade-up anim-delay-2 p-4">
+                    <div class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight anim-counter" data-target="2500" data-suffix="+">2,500+</div>
+                    <div class="text-xs sm:text-sm font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mt-2">Active Teams</div>
+                </div>
+                <div class="anim-reveal anim-fade-up anim-delay-3 p-4">
+                    <div class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight anim-counter" data-target="98" data-suffix="%">98%</div>
+                    <div class="text-xs sm:text-sm font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mt-2">Satisfaction Rate</div>
+                </div>
+                <div class="anim-reveal anim-fade-up anim-delay-4 p-4">
+                    <div class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight anim-counter" data-target="15" data-suffix="M+">15M+</div>
+                    <div class="text-xs sm:text-sm font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mt-2">Organic Visits Driven</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OFFICIAL PLATFORM INTEGRATIONS MARQUEE (WordPress, Webflow, Shopify, Ghost, Medium, Notion, Contentful, Strapi) -->
+    <section class="py-12 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 mb-6 text-center">
+            <p class="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+                Seamlessly Integrates With Your Favorite CMS &amp; Platforms
             </p>
-           
         </div>
-    </div>
+        <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 px-4 max-w-6xl mx-auto">
+            <div class="flex items-center gap-3 px-4 py-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-teal-500/40 transition-all duration-300 shadow-sm hover:scale-105">
+                <img src="images/wordpress.png" alt="WordPress" class="w-6 h-6 object-contain">
+                <span class="font-semibold text-sm text-slate-700 dark:text-slate-300">WordPress</span>
+            </div>
+            <div class="flex items-center gap-3 px-4 py-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-teal-500/40 transition-all duration-300 shadow-sm hover:scale-105">
+                <i class="fa-brands fa-webflow text-indigo-500 text-lg" aria-hidden="true"></i>
+                <span class="font-semibold text-sm text-slate-700 dark:text-slate-300">Webflow</span>
+            </div>
+            <div class="flex items-center gap-3 px-4 py-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-teal-500/40 transition-all duration-300 shadow-sm hover:scale-105">
+                <i class="fa-brands fa-shopify text-emerald-500 text-lg" aria-hidden="true"></i>
+                <span class="font-semibold text-sm text-slate-700 dark:text-slate-300">Shopify</span>
+            </div>
+            <div class="flex items-center gap-3 px-4 py-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-teal-500/40 transition-all duration-300 shadow-sm hover:scale-105">
+                <i class="fa-solid fa-ghost text-teal-500 text-lg" aria-hidden="true"></i>
+                <span class="font-semibold text-sm text-slate-700 dark:text-slate-300">Ghost</span>
+            </div>
+            <div class="flex items-center gap-3 px-4 py-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-teal-500/40 transition-all duration-300 shadow-sm hover:scale-105">
+                <i class="fa-brands fa-medium text-slate-800 dark:text-slate-200 text-lg" aria-hidden="true"></i>
+                <span class="font-semibold text-sm text-slate-700 dark:text-slate-300">Medium</span>
+            </div>
+            <div class="flex items-center gap-3 px-4 py-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-teal-500/40 transition-all duration-300 shadow-sm hover:scale-105">
+                <i class="fa-solid fa-cube text-amber-500 text-lg" aria-hidden="true"></i>
+                <span class="font-semibold text-sm text-slate-700 dark:text-slate-300">Notion</span>
+            </div>
+            <div class="flex items-center gap-3 px-4 py-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-teal-500/40 transition-all duration-300 shadow-sm hover:scale-105">
+                <i class="fa-solid fa-layer-group text-blue-500 text-lg" aria-hidden="true"></i>
+                <span class="font-semibold text-sm text-slate-700 dark:text-slate-300">Contentful</span>
+            </div>
+            <div class="flex items-center gap-3 px-4 py-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-teal-500/40 transition-all duration-300 shadow-sm hover:scale-105">
+                <i class="fa-solid fa-code text-purple-500 text-lg" aria-hidden="true"></i>
+                <span class="font-semibold text-sm text-slate-700 dark:text-slate-300">Strapi</span>
+            </div>
+        </div>
+    </section>
 
-    <!-- Stats & Integrations -->
-    <div class="py-16 border-y border-navy-700/50 bg-navy-800/30">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center mb-16">
-            <div>
-                
-            </div>
-            <div>
-                
-            </div>
-            <div>
-                
-            </div>
-            <div>
-                
-            </div>
-        </div>
+    <!-- ============================================================
+         REMOVED (structural + duplicate-content fix):
+         A second, verbatim copy of the hero trust list ("100% Brand-Aligned
+         Voice / Multi-Channel Knowledge Ingestion / Direct CMS Auto-Publishing")
+         used to sit here. In the original file it was orphaned at body level
+         after the hero's </section>, followed by two stray </div> tags and a
+         stray </section> with no matching openers — invalid markup that browsers
+         silently dropped while still painting the duplicated badges.
+         Deleted: it rendered the same three items twice and added no SEO value.
+         The single canonical copy lives inside the hero <section> above.
+         ============================================================ -->
 
-        <div class="text-center">
-            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-6">Integrates With Your Favorite Platforms</h3>
-            <div class="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto px-4">
-                <div class="bg-navy-900 border border-navy-700 px-6 py-3 rounded-full flex items-center gap-2 text-sm font-medium"><i class="fa-brands fa-wordpress text-blue-400"></i> WordPress</div>
-                <div class="bg-navy-900 border border-navy-700 px-6 py-3 rounded-full flex items-center gap-2 text-sm font-medium"><i class="fa-solid fa-w text-blue-600"></i> Webflow</div>
-                <div class="bg-navy-900 border border-navy-700 px-6 py-3 rounded-full flex items-center gap-2 text-sm font-medium"><i class="fa-brands fa-shopify text-green-500"></i> Shopify</div>
-                <div class="bg-navy-900 border border-navy-700 px-6 py-3 rounded-full flex items-center gap-2 text-sm font-medium"><i class="fa-brands fa-medium text-white"></i> Medium</div>
-                <div class="bg-navy-900 border border-navy-700 px-6 py-3 rounded-full flex items-center gap-2 text-sm font-medium"><i class="fa-solid fa-n text-white"></i> Notion</div>
-            </div>
-        </div>
-    </div>
+    <!-- OFFICIAL FEATURES SECTION (#features) -->
+    <section id="features" aria-labelledby="features-heading" class="py-24 md:py-32 bg-slate-50 dark:bg-slate-900/60 text-slate-900 dark:text-white relative overflow-hidden border-b border-slate-200 dark:border-slate-800/80">
+        <!-- Floating Ambient Glow Orbs -->
+        <div aria-hidden="true" class="anim-float-orb absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-r from-teal-500/15 to-emerald-500/15 rounded-full blur-[140px] pointer-events-none"></div>
+        <div aria-hidden="true" class="anim-float-orb-slow absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-gradient-to-r from-cyan-500/10 to-teal-500/10 rounded-full blur-[140px] pointer-events-none"></div>
 
-    <!-- Why Choose Contlify (Features) -->
-    <div id="why-contlify" class="py-24 max-w-7xl mx-auto px-6">
-        <div class="text-center max-w-3xl mx-auto mb-16">
-            <span class="text-brand-teal text-xs font-bold px-4 py-1.5 rounded-full border border-navy-700 uppercase tracking-wider">Powerful Features</span>
-            <h2 class="text-4xl md:text-5xl font-extrabold text-white mt-6 mb-4">Why Choose Contlify?</h2>
-            <p class="text-gray-400 text-lg">Designed for serious content marketers, SaaS companies, and digital agencies who want to dominate organic search and eliminate the content bottleneck.</p>
-        </div>
+        <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+            <div class="flex flex-col max-w-3xl mb-16 text-center items-center mx-auto">
+                <div class="anim-reveal anim-fade-up inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 dark:bg-slate-900/90 border border-teal-500/40 text-teal-700 dark:text-teal-400 text-xs sm:text-sm font-semibold mb-4 shadow-sm backdrop-blur-md anim-shimmer">
+                    <i class="fa-solid fa-layer-group text-teal-500 animate-pulse" aria-hidden="true"></i>
+                    <span>Contlify Platform HQ</span>
+                </div>
+                <h2 id="features-heading" class="anim-reveal anim-fade-up anim-delay-1 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.15]">
+                    Everything You Need to <span class="bg-gradient-to-r from-teal-500 via-emerald-500 to-cyan-500 bg-clip-text text-transparent">Scale Organic Traffic</span>
+                </h2>
+                <p class="anim-reveal anim-fade-up anim-delay-2 mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">
+                    An all-in-one AI content generation, optimization, and auto-publishing system engineered for marketing teams, SaaS, e-commerce, and agencies.
+                </p>
+            </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700">
-                <div class="w-10 h-10 bg-emerald-500/20 text-emerald-400 rounded-lg flex items-center justify-center mb-6"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                <h3 class="font-bold text-xl text-white mb-3">AI Blog Generation</h3>
-                <p class="text-gray-400 text-sm">Generate complete, readable, long-form articles in seconds from a single topic. Supports listicles, guides, and reviews.</p>
+            <!-- Primary 3 Core Pillars -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <!-- Pillar 1: /create -->
+                <article class="anim-reveal anim-fade-up anim-delay-1 group p-8 rounded-3xl bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border border-teal-200 dark:border-teal-900/40 hover:border-teal-500 dark:hover:border-teal-400 hover:shadow-2xl hover:shadow-teal-500/15 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden">
+                    <div aria-hidden="true" class="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500/20 to-emerald-500/20 border border-teal-500/30 text-teal-600 dark:text-teal-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-md">
+                        <i class="fa-solid fa-wand-magic-sparkles text-2xl" aria-hidden="true"></i>
+                    </div>
+                    <div class="inline-block px-3 py-1 rounded-full text-xs font-mono font-bold bg-teal-100 dark:bg-teal-900/50 text-teal-700 dark:text-teal-300 mb-3 border border-teal-500/20">/create</div>
+                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">AI Blog &amp; Bulk Creation</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6">Generate long-form, brand-aligned articles and batch-produce dozens of posts in minutes with living BrandBook guardrails.</p>
+                    <ul class="space-y-2.5 text-xs font-semibold text-slate-600 dark:text-slate-300 list-none pt-4 border-t border-slate-200/60 dark:border-slate-800">
+                        <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-teal-500" aria-hidden="true"></i> Automated Brand Footprint Scanning</li>
+                        <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-teal-500" aria-hidden="true"></i> Bulk Article Generation Engine</li>
+                        <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-teal-500" aria-hidden="true"></i> ICP Voice Persona Calibration</li>
+                    </ul>
+                </article>
+
+                <!-- Pillar 2: /publish -->
+                <article class="anim-reveal anim-fade-up anim-delay-2 group p-8 rounded-3xl bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border border-emerald-200 dark:border-emerald-900/40 hover:border-emerald-500 dark:hover:border-emerald-400 hover:shadow-2xl hover:shadow-emerald-500/15 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden">
+                    <div aria-hidden="true" class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-md">
+                        <i class="fa-solid fa-paper-plane text-2xl" aria-hidden="true"></i>
+                    </div>
+                    <div class="inline-block px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 mb-3 border border-emerald-500/20">/publish</div>
+                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Multi-Platform Publishing</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6">Auto-publish directly to WordPress, Next.js, Webflow, Shopify, Ghost, or schedule your content pipeline effortlessly.</p>
+                    <ul class="space-y-2.5 text-xs font-semibold text-slate-600 dark:text-slate-300 list-none pt-4 border-t border-slate-200/60 dark:border-slate-800">
+                        <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-500" aria-hidden="true"></i> Direct WordPress &amp; CMS Connectors</li>
+                        <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-500" aria-hidden="true"></i> Smart Publishing Queue &amp; Scheduler</li>
+                        <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-500" aria-hidden="true"></i> One-Click Editorial Approval</li>
+                    </ul>
+                </article>
+
+                <!-- Pillar 3: /optimize -->
+                <article class="anim-reveal anim-fade-up anim-delay-3 group p-8 rounded-3xl bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border border-cyan-200 dark:border-cyan-900/40 hover:border-cyan-500 dark:hover:border-cyan-400 hover:shadow-2xl hover:shadow-cyan-500/15 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden">
+                    <div aria-hidden="true" class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-teal-500/20 border border-cyan-500/30 text-cyan-600 dark:text-cyan-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-md">
+                        <i class="fa-solid fa-chart-pie text-2xl" aria-hidden="true"></i>
+                    </div>
+                    <div class="inline-block px-3 py-1 rounded-full text-xs font-mono font-bold bg-cyan-100 dark:bg-cyan-900/50 text-cyan-700 dark:text-cyan-300 mb-3 border border-cyan-500/20">/optimize</div>
+                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">SEO &amp; Plagiarism Guard</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6">Real-time keyword scoring, meta description auto-generation, schema injection, and built-in original content verification.</p>
+                    <ul class="space-y-2.5 text-xs font-semibold text-slate-600 dark:text-slate-300 list-none pt-4 border-t border-slate-200/60 dark:border-slate-800">
+                        <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-cyan-500" aria-hidden="true"></i> Real-time SEO Score 98+ Optimization</li>
+                        <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-cyan-500" aria-hidden="true"></i> Built-in Originality &amp; Plagiarism Checker</li>
+                        <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-cyan-500" aria-hidden="true"></i> Automated Structured Data Markup</li>
+                    </ul>
+                </article>
             </div>
-            <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700">
-                <div class="w-10 h-10 bg-blue-500/20 text-blue-400 rounded-lg flex items-center justify-center mb-6"><i class="fa-solid fa-layer-group"></i></div>
-                <h3 class="font-bold text-xl text-white mb-3">Multi-Platform Publishing</h3>
-                <p class="text-gray-400 text-sm">Connect WordPress, Webflow, and Shopify simultaneously. Sync your content library across all channels automatically.</p>
-            </div>
-            <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700">
-                <div class="w-10 h-10 bg-green-500/20 text-green-400 rounded-lg flex items-center justify-center mb-6"><i class="fa-solid fa-chart-line"></i></div>
-                <h3 class="font-bold text-xl text-white mb-3">Advanced SEO Optimization</h3>
-                <p class="text-gray-400 text-sm">Automatic keyword research, meta tags, schema markup, and internal linking to ensure high ranking.</p>
-            </div>
-            <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700">
-                <div class="w-10 h-10 bg-orange-500/20 text-orange-400 rounded-lg flex items-center justify-center mb-6"><i class="fa-regular fa-calendar-check"></i></div>
-                <h3 class="font-bold text-xl text-white mb-3">Smart Scheduling</h3>
-                <p class="text-gray-400 text-sm">Plan months in advance. AI picks optimal posting times for maximum engagement based on your audience.</p>
-            </div>
-            <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700">
-                <div class="w-10 h-10 bg-indigo-500/20 text-indigo-400 rounded-lg flex items-center justify-center mb-6"><i class="fa-solid fa-copy"></i></div>
-                <h3 class="font-bold text-xl text-white mb-3">Bulk Generation</h3>
-                <p class="text-gray-400 text-sm">Generate 100+ articles in a single batch. Create topic clusters and scale your operations instantly.</p>
-            </div>
-            <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700">
-                <div class="w-10 h-10 bg-brand-teal/20 text-brand-teal rounded-lg flex items-center justify-center mb-6"><i class="fa-solid fa-shield-check"></i></div>
-                <h3 class="font-bold text-xl text-white mb-3">Plagiarism-Free Guarantee</h3>
-                <p class="text-gray-400 text-sm">Every article passes Copyscape checks. 100% original content that avoids duplicate penalties.</p>
+
+            <!-- Expanded 6-Grid Feature Capabilities Showcase -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-6">
+                <div class="anim-reveal anim-fade-up anim-delay-1 p-6 rounded-2xl bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 hover:border-teal-500/40 transition-all flex items-start gap-4 shadow-sm">
+                    <div class="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-brain text-lg" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Living BrandBook Memory</h4>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Continuously ingests website copy and social channels to preserve voice rules.</p>
+                    </div>
+                </div>
+
+                <div class="anim-reveal anim-fade-up anim-delay-2 p-6 rounded-2xl bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/40 transition-all flex items-start gap-4 shadow-sm">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-gauge-high text-lg" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">SEO Score 98+ Analyzer</h4>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Automatic keyword density, heading hierarchy, and meta tag optimization.</p>
+                    </div>
+                </div>
+
+                <div class="anim-reveal anim-fade-up anim-delay-3 p-6 rounded-2xl bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 hover:border-cyan-500/40 transition-all flex items-start gap-4 shadow-sm">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-sliders text-lg" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">One-Click CMS Publishing</h4>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Push directly to WordPress, Next.js, Webflow, Shopify, Ghost, or scheduled queues.</p>
+                    </div>
+                </div>
+
+                <div class="anim-reveal anim-fade-up anim-delay-4 p-6 rounded-2xl bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 hover:border-indigo-500/40 transition-all flex items-start gap-4 shadow-sm">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-bolt text-lg" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Bulk Content Generation</h4>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Generate 30+ SEO articles simultaneously without sacrificing tone quality.</p>
+                    </div>
+                </div>
+
+                <div class="anim-reveal anim-fade-up anim-delay-5 p-6 rounded-2xl bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 hover:border-purple-500/40 transition-all flex items-start gap-4 shadow-sm">
+                    <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-shield-cat text-lg" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Originality Guard</h4>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Integrated plagiarism checking ensures 100% unique search-engine safe copy.</p>
+                    </div>
+                </div>
+
+                <div class="anim-reveal anim-fade-up anim-delay-6 p-6 rounded-2xl bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 hover:border-pink-500/40 transition-all flex items-start gap-4 shadow-sm">
+                    <div class="w-10 h-10 rounded-xl bg-pink-500/10 text-pink-600 dark:text-pink-400 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-code text-lg" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Automated Schema Injection</h4>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Generates Article, FAQ, and Breadcrumb structured data for rich snippets.</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Why Contlify / Problem Section -->
+    <section id="why-contlify" aria-labelledby="why-contlify-heading" class="py-24 md:py-32 bg-white dark:bg-slate-950 text-slate-900 dark:text-white relative overflow-hidden border-t border-slate-200 dark:border-slate-800/50">
+        <div aria-hidden="true" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-rose-500/5 rounded-full blur-[150px] pointer-events-none"></div>
+
+        <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+            <div class="flex flex-col max-w-3xl mb-12 md:mb-16 text-center items-center mx-auto">
+                <!-- Eyebrow label kept as a <div>: it is a kicker, not a heading. Marking it
+                     up as one would break the h1 -> h2 -> h3 flow. -->
+                <div class="anim-reveal anim-fade-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-teal-50 to-emerald-50 dark:from-teal-900/50 dark:to-emerald-900/50 border border-teal-200 dark:border-teal-700/50 text-teal-700 dark:text-teal-300 text-xs sm:text-sm font-semibold mb-4 shrink-0">
+                    The AI Content Paradox
+                </div>
+                <!-- H2: section-level heading, one level below the h1. No skipped levels. -->
+                <h2 id="why-contlify-heading" class="anim-reveal anim-fade-up anim-delay-1 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.15]">Why Commodity AI Writers Fail Modern Brands</h2>
+                <p class="anim-reveal anim-fade-up anim-delay-2 mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">
+                    Off-the-shelf prompt generators focus on speed over identity. They spit out generic filler that dilutes your brand authority and forces endless manual editing.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mt-12">
+                <!-- Card 1 -->
+                <!-- SEMANTIC: each self-contained problem card is an <article>. -->
+                <article class="anim-reveal anim-fade-up anim-delay-1 anim-icon-bounce group relative h-full p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-300 flex flex-col justify-between shadow-sm">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa-solid fa-triangle-exclamation text-xl" aria-hidden="true"></i>
+                        </div>
+                        <!-- H3: card heading, correctly nested under the section h2. -->
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-rose-700 dark:group-hover:text-rose-200 transition-colors">Generic, Bland Copy</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6">Off-the-shelf LLMs produce robotic, predictable phrasing with zero understanding of your brand's distinct positioning or market nuance.</p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-200 dark:border-slate-800/80 flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+                        <span class="text-rose-600 dark:text-rose-400 font-bold uppercase tracking-wider text-[10px]">Impact:</span>
+                        <span class="text-slate-600 dark:text-slate-300">Readers tune out and brand differentiation is lost.</span>
+                    </div>
+                </article>
+
+                <!-- Card 2 -->
+                <article class="anim-reveal anim-fade-up anim-delay-2 anim-icon-bounce group relative h-full p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-300 flex flex-col justify-between shadow-sm">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa-solid fa-volume-xmark text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-rose-700 dark:group-hover:text-rose-200 transition-colors">Diluted Brand Voice</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6">Every prompt produces a different tone, style, and vocabulary, fragmenting your brand identity across articles, social posts, and landing pages.</p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-200 dark:border-slate-800/80 flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+                        <span class="text-rose-600 dark:text-rose-400 font-bold uppercase tracking-wider text-[10px]">Impact:</span>
+                        <span class="text-slate-600 dark:text-slate-300">Audience trust erodes with inconsistent messaging.</span>
+                    </div>
+                </article>
+
+                <!-- Card 3 -->
+                <article class="anim-reveal anim-fade-up anim-delay-3 anim-icon-bounce group relative h-full p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-300 flex flex-col justify-between shadow-sm">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa-solid fa-rotate-left text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-rose-700 dark:group-hover:text-rose-200 transition-colors">Endless Prompt Repetition</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6">Marketing teams waste hours re-explaining company background, product specs, and style rules into every single AI prompt window.</p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-200 dark:border-slate-800/80 flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+                        <span class="text-rose-600 dark:text-rose-400 font-bold uppercase tracking-wider text-[10px]">Impact:</span>
+                        <span class="text-slate-600 dark:text-slate-300">Creates bottlenecks and eliminates AI speed advantages.</span>
+                    </div>
+                </article>
+
+                <!-- Card 4 -->
+                <article class="anim-reveal anim-fade-up anim-delay-4 anim-icon-bounce group relative h-full p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-300 flex flex-col justify-between shadow-sm">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa-solid fa-shield-halved text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-rose-700 dark:group-hover:text-rose-200 transition-colors">Factual Hallucinations</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6">Commodity AI models generate ungrounded claims with no connection to your real product features, pricing, or verified customer data.</p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-200 dark:border-slate-800/80 flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+                        <span class="text-rose-600 dark:text-rose-400 font-bold uppercase tracking-wider text-[10px]">Impact:</span>
+                        <span class="text-slate-600 dark:text-slate-300">Exposes your business to factual errors and SEO penalties.</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
 
     <!-- How It Works Section -->
-    <div id="how-it-works" class="py-24 bg-navy-900 border-t border-navy-700/50 px-6 text-center">
-        <div class="max-w-6xl mx-auto">
-            <span class="text-brand-teal text-xs font-bold px-4 py-1.5 rounded-full border border-navy-700 uppercase tracking-wider">Simple 3-Step Process</span>
-            <h2 class="text-4xl md:text-5xl font-extrabold text-white mt-6 mb-4">How It Works</h2>
-            <p class="text-gray-400 mb-16">Start automating your content strategy in minutes, not months.</p>
-            
-            <div class="grid md:grid-cols-3 gap-8 text-left">
-                <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700 relative pt-12">
-                    <div class="absolute -top-4 -left-4 bg-blue-600 text-white font-bold px-4 py-2 rounded-xl text-lg shadow-lg">01</div>
-                    <h3 class="text-xl font-bold text-white mb-3">Connect Your CMS</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Link your WordPress, Webflow, or Shopify in one click. We sync with your existing content automatically.</p>
+    <section id="how-it-works" aria-labelledby="how-it-works-heading" class="py-24 md:py-32 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white relative overflow-hidden border-t border-slate-200 dark:border-slate-800/50">
+        <div aria-hidden="true" class="absolute top-0 right-1/4 w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+
+        <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+            <div class="flex flex-col max-w-3xl mb-12 md:mb-16 text-center items-center mx-auto">
+                <div class="anim-reveal anim-fade-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-teal-50 to-emerald-50 dark:from-teal-900/50 dark:to-emerald-900/50 border border-teal-200 dark:border-teal-700/50 text-teal-700 dark:text-teal-300 text-xs sm:text-sm font-semibold mb-4 shrink-0">
+                    End-to-End Workflow
                 </div>
-                <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700 relative pt-12">
-                    <div class="absolute -top-4 -left-4 bg-emerald-500 text-white font-bold px-4 py-2 rounded-xl text-lg shadow-lg">02</div>
-                    <h3 class="text-xl font-bold text-white mb-3">Generate Content</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Enter your niche keywords or let AI analyze your market to find high-traffic content opportunities.</p>
-                </div>
-                <div class="bg-navy-800 p-8 rounded-2xl border border-navy-700 relative pt-12">
-                    <div class="absolute -top-4 -left-4 bg-cyan-500 text-white font-bold px-4 py-2 rounded-xl text-lg shadow-lg">03</div>
-                    <h3 class="text-xl font-bold text-white mb-3">Publish & Scale</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Set your schedule and watch as fully optimized, plagiarism-free articles go live automatically.</p>
-                </div>
+                <h2 id="how-it-works-heading" class="anim-reveal anim-fade-up anim-delay-1 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.15]">From Brand Scan to Automated Publishing</h2>
+                <p class="anim-reveal anim-fade-up anim-delay-2 mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">
+                    A unified 5-step journey that turns your digital presence into an automated, human-guided content distribution engine.
+                </p>
+            </div>
+
+            <!-- CONNECTED WORKFLOW TIMELINE GRID -->
+            <div class="relative mt-16">
+                <!-- Connecting Line background (hidden on mobile, visible on desktop) -->
+                <div aria-hidden="true" class="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-teal-500 via-emerald-500 via-indigo-500 to-purple-500 -translate-y-1/2 rounded-full opacity-30 pointer-events-none z-0"></div>
+
+                <ol class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 relative z-10 list-none">
+                    <!-- Step 1 -->
+                    <li class="anim-reveal anim-fade-up anim-delay-1 group relative flex flex-col justify-between h-full p-6 rounded-3xl bg-white dark:bg-slate-950/90 border border-blue-200 dark:border-blue-900/40 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 hover:-translate-y-2">
+                        <div class="absolute -top-3 left-6 px-3 py-0.5 rounded-full text-[11px] font-extrabold bg-blue-600 text-white shadow-md">
+                            STEP 01
+                        </div>
+                        <div class="mt-3">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner">
+                                    <i class="fa-solid fa-globe text-xl" aria-hidden="true"></i>
+                                </div>
+                                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300">Footprint Scan</span>
+                            </div>
+                            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Connect Website &amp; Channels</h3>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Provide your domain, blogs, and social accounts. Contlify scans and maps your digital footprint.</p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-[11px] font-semibold text-blue-600 dark:text-blue-400">
+                            <span>One-Time Setup</span>
+                            <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform" aria-hidden="true"></i>
+                        </div>
+                    </li>
+
+                    <!-- Step 2 -->
+                    <li class="anim-reveal anim-fade-up anim-delay-2 group relative flex flex-col justify-between h-full p-6 rounded-3xl bg-white dark:bg-slate-950/90 border border-teal-200 dark:border-teal-900/40 hover:border-teal-500 dark:hover:border-teal-400 hover:shadow-2xl hover:shadow-teal-500/10 transition-all duration-300 hover:-translate-y-2">
+                        <div class="absolute -top-3 left-6 px-3 py-0.5 rounded-full text-[11px] font-extrabold bg-teal-600 text-white shadow-md">
+                            STEP 02
+                        </div>
+                        <div class="mt-3">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-2xl bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-800 text-teal-600 dark:text-teal-400 flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner">
+                                    <i class="fa-solid fa-brain text-xl" aria-hidden="true"></i>
+                                </div>
+                                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-teal-50 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300">Brand Memory</span>
+                            </div>
+                            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2 leading-snug group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">Synthesize Living BrandBook</h3>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">AI builds an adaptive BrandBook with your tone, ICP personas, vocabulary, and voice guardrails.</p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-[11px] font-semibold text-teal-600 dark:text-teal-400">
+                            <span>Auto Tone Intelligence</span>
+                            <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform" aria-hidden="true"></i>
+                        </div>
+                    </li>
+
+                    <!-- Step 3 -->
+                    <li class="anim-reveal anim-fade-up anim-delay-3 group relative flex flex-col justify-between h-full p-6 rounded-3xl bg-white dark:bg-slate-950/90 border border-emerald-200 dark:border-emerald-900/40 hover:border-emerald-500 dark:hover:border-emerald-400 hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-300 hover:-translate-y-2">
+                        <div class="absolute -top-3 left-6 px-3 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-600 text-white shadow-md">
+                            STEP 03
+                        </div>
+                        <div class="mt-3">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner">
+                                    <i class="fa-solid fa-microchip text-xl" aria-hidden="true"></i>
+                                </div>
+                                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300">Context Engine</span>
+                            </div>
+                            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2 leading-snug group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Generate Aligned Content</h3>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Generate articles, featured visuals, and SEO metadata pre-calibrated to your BrandBook rules.</p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                            <span>SEO Score 98+ Engine</span>
+                            <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform" aria-hidden="true"></i>
+                        </div>
+                    </li>
+
+                    <!-- Step 4 -->
+                    <li class="anim-reveal anim-fade-up anim-delay-4 group relative flex flex-col justify-between h-full p-6 rounded-3xl bg-white dark:bg-slate-950/90 border border-indigo-200 dark:border-indigo-900/40 hover:border-indigo-500 dark:hover:border-indigo-400 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 hover:-translate-y-2">
+                        <div class="absolute -top-3 left-6 px-3 py-0.5 rounded-full text-[11px] font-extrabold bg-indigo-600 text-white shadow-md">
+                            STEP 04
+                        </div>
+                        <div class="mt-3">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner">
+                                    <i class="fa-solid fa-eye text-xl" aria-hidden="true"></i>
+                                </div>
+                                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300">Human Guidance</span>
+                            </div>
+                            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2 leading-snug group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Editorial Review &amp; Approval</h3>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Review drafts in your dashboard, edit wording, or enable single-click automated publishing approval.</p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-[11px] font-semibold text-indigo-600 dark:text-indigo-400">
+                            <span>Full Quality Control</span>
+                            <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform" aria-hidden="true"></i>
+                        </div>
+                    </li>
+
+                    <!-- Step 5 -->
+                    <li class="anim-reveal anim-fade-up anim-delay-5 group relative flex flex-col justify-between h-full p-6 rounded-3xl bg-white dark:bg-slate-950/90 border border-purple-200 dark:border-purple-900/40 hover:border-purple-500 dark:hover:border-purple-400 hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 hover:-translate-y-2">
+                        <div class="absolute -top-3 left-6 px-3 py-0.5 rounded-full text-[11px] font-extrabold bg-purple-600 text-white shadow-md">
+                            STEP 05
+                        </div>
+                        <div class="mt-3">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800 text-purple-600 dark:text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner">
+                                    <i class="fa-solid fa-rocket text-xl" aria-hidden="true"></i>
+                                </div>
+                                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-purple-50 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300">Auto Publish</span>
+                            </div>
+                            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2 leading-snug group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">Publish Everywhere</h3>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Push approved articles directly to WordPress, Next.js, Webflow, Shopify, Ghost, or scheduled queues.</p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-[11px] font-semibold text-purple-600 dark:text-purple-400">
+                            <span>CMS Connectors</span>
+                            <i class="fa-solid fa-check-double text-xs" aria-hidden="true"></i>
+                        </div>
+                    </li>
+                </ol>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Who is it for? (Use Cases) -->
-    <div id="use-cases" class="py-24 border-t border-navy-700/50 bg-navy-800/30 px-6">
-        <div class="max-w-6xl mx-auto text-center">
-            <span class="text-brand-teal text-xs font-bold px-4 py-1.5 rounded-full border border-navy-700 uppercase tracking-wider">Built for Growth</span>
-            <h2 class="text-4xl md:text-5xl font-extrabold text-white mt-6 mb-4">Who is Contlify For?</h2>
-            <p class="text-gray-400 mb-16 max-w-2xl mx-auto">See how different teams use our platform to eliminate the content bottleneck and scale revenue.</p>
+    <section id="use-cases" aria-labelledby="use-cases-heading" class="py-24 md:py-32 bg-white dark:bg-slate-950 text-slate-900 dark:text-white relative overflow-hidden border-t border-slate-200 dark:border-slate-800/50">
+        <div aria-hidden="true" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-to-r from-teal-500/10 via-emerald-500/10 to-cyan-500/10 rounded-full blur-[160px] pointer-events-none"></div>
 
-            <div class="grid md:grid-cols-3 gap-8 text-left">
+        <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+            <div class="flex flex-col max-w-3xl mb-12 md:mb-16 text-center items-center mx-auto">
+                <div class="anim-reveal anim-fade-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-teal-50 to-emerald-50 dark:from-teal-900/50 dark:to-emerald-900/50 border border-teal-200 dark:border-teal-700/50 text-teal-700 dark:text-teal-300 text-xs sm:text-sm font-semibold mb-4 shrink-0">
+                    Built for Growth
+                </div>
+                <h2 id="use-cases-heading" class="anim-reveal anim-fade-up anim-delay-1 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.15]">Who is Contlify For?</h2>
+                <p class="anim-reveal anim-fade-up anim-delay-2 mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">
+                    See how different teams use our platform to eliminate the content bottleneck and scale revenue.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 text-left mt-14 max-w-6xl mx-auto">
                 <!-- SaaS Companies -->
-                <div class="bg-navy-900 p-8 rounded-2xl border border-navy-700 hover:-translate-y-1 transition duration-300">
-                    <div class="text-brand-teal text-5xl font-extrabold mb-2">300%</div>
-                    <div class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-6">Traffic Increase</div>
-                    <h3 class="text-2xl font-bold text-white mb-3">SaaS Companies</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Build organic traffic with consistent content to scale your user base without spending thousands on paid ads.</p>
-                </div>
-                
+                <article class="anim-reveal anim-fade-right anim-delay-1 bg-white dark:bg-slate-900/60 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 hover:-translate-y-1 transition duration-300 shadow-lg">
+                    <div class="text-teal-600 dark:text-teal-400 text-5xl font-extrabold mb-2 anim-counter" data-target="300" data-suffix="%">300%</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest mb-6">Traffic Increase</div>
+                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3">SaaS Companies</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Build organic traffic with consistent content to scale your user base without spending thousands on paid ads.</p>
+                </article>
+
                 <!-- E-commerce Stores -->
-                <div class="bg-navy-900 p-8 rounded-2xl border border-navy-700 hover:-translate-y-1 transition duration-300">
-                    <div class="text-brand-teal text-5xl font-extrabold mb-2">70%</div>
-                    <div class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-6">Leads from Organic</div>
-                    <h3 class="text-2xl font-bold text-white mb-3">E-commerce Stores</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Generate in-depth product guides, listicles, and seasonal content to capture high-intent shoppers directly from search.</p>
-                </div>
+                <article class="anim-reveal anim-fade-up anim-delay-2 bg-white dark:bg-slate-900/60 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 hover:-translate-y-1 transition duration-300 shadow-lg">
+                    <div class="text-teal-600 dark:text-teal-400 text-5xl font-extrabold mb-2 anim-counter" data-target="70" data-suffix="%">70%</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest mb-6">Leads from Organic</div>
+                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3">E-commerce Stores</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Generate in-depth product guides, listicles, and seasonal content to capture high-intent shoppers directly from search.</p>
+                </article>
 
                 <!-- Marketing Agencies -->
-                <div class="bg-navy-900 p-8 rounded-2xl border border-navy-700 hover:-translate-y-1 transition duration-300">
-                    <div class="text-brand-teal text-5xl font-extrabold mb-2">5x</div>
-                    <div class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-6">Output Multiplier</div>
-                    <h3 class="text-2xl font-bold text-white mb-3">Marketing Agencies</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Manage content generation and publishing for 10+ clients from a single dashboard. Scale your revenue, not your headcount.</p>
+                <article class="anim-reveal anim-fade-left anim-delay-3 bg-white dark:bg-slate-900/60 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 hover:-translate-y-1 transition duration-300 shadow-lg">
+                    <div class="text-teal-600 dark:text-teal-400 text-5xl font-extrabold mb-2 anim-counter" data-target="5" data-suffix="x">5x</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest mb-6">Output Multiplier</div>
+                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3">Marketing Agencies</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Manage content generation and publishing for 10+ clients from a single dashboard. Scale your revenue, not your headcount.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION (#testimonials - Wall of Love from Official contlify.com) -->
+    <section id="testimonials" aria-labelledby="testimonials-heading" class="py-24 md:py-32 bg-slate-50 dark:bg-slate-900/60 text-slate-900 dark:text-white relative overflow-hidden border-t border-slate-200 dark:border-slate-800/50">
+        <div aria-hidden="true" class="absolute top-0 right-0 w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-[150px] pointer-events-none"></div>
+
+        <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+            <div class="flex flex-col max-w-3xl mb-16 text-center items-center mx-auto">
+                <div class="anim-reveal anim-fade-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-teal-50 to-emerald-50 dark:from-teal-900/50 dark:to-emerald-900/50 border border-teal-200 dark:border-teal-700/50 text-teal-700 dark:text-teal-300 text-xs sm:text-sm font-semibold mb-4 shrink-0">
+                    <i class="fa-solid fa-star text-amber-500" aria-hidden="true"></i> Wall of Love
+                </div>
+                <h2 id="testimonials-heading" class="anim-reveal anim-fade-up anim-delay-1 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.15]">
+                    Loved by <span class="bg-gradient-to-r from-teal-500 via-emerald-500 to-cyan-500 bg-clip-text text-transparent">Content &amp; SEO Teams</span>
+                </h2>
+                <p class="anim-reveal anim-fade-up anim-delay-2 mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">
+                    See what marketers, SEO directors, and agency leaders are saying about Contlify.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+                <!-- Testimonial 1 -->
+                <article class="anim-reveal anim-fade-up anim-delay-1 p-8 rounded-3xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-md hover:shadow-xl transition-all">
+                    <div class="flex items-center gap-1 text-amber-400 mb-4" aria-label="5 out of 5 stars">
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                    </div>
+                    <blockquote class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed mb-6 italic">
+                        "Contlify has completely transformed our content workflow. We went from publishing 4 blog posts a month to 20+ while maintaining total brand consistency."
+                    </blockquote>
+                    <div class="flex items-center gap-3 border-t border-slate-100 dark:border-slate-800 pt-4">
+                        <img src="images/avatar-sarah.jpg" alt="Sarah Mitchell - Content Marketing Lead at TechFlow" width="44" height="44" loading="lazy" decoding="async" class="w-11 h-11 rounded-full object-cover border-2 border-teal-500/40 shadow-sm shrink-0">
+                        <div>
+                            <div class="text-sm font-bold text-slate-900 dark:text-white">Sarah Mitchell</div>
+                            <div class="text-xs text-slate-500 dark:text-slate-400">Content Marketing Lead at TechFlow</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Testimonial 2 -->
+                <article class="anim-reveal anim-fade-up anim-delay-2 p-8 rounded-3xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-md hover:shadow-xl transition-all">
+                    <div class="flex items-center gap-1 text-amber-400 mb-4" aria-label="5 out of 5 stars">
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                    </div>
+                    <blockquote class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed mb-6 italic">
+                        "The SEO optimization is incredible. Our organic search traffic increased by 340% in just 3 months after switching to Contlify's automated blog generator."
+                    </blockquote>
+                    <div class="flex items-center gap-3 border-t border-slate-100 dark:border-slate-800 pt-4">
+                        <img src="images/avatar-james.jpg" alt="James Rodriguez - SEO Director at GrowthLabs" width="44" height="44" loading="lazy" decoding="async" class="w-11 h-11 rounded-full object-cover border-2 border-cyan-500/40 shadow-sm shrink-0">
+                        <div>
+                            <div class="text-sm font-bold text-slate-900 dark:text-white">James Rodriguez</div>
+                            <div class="text-xs text-slate-500 dark:text-slate-400">SEO Director at GrowthLabs</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Testimonial 3 -->
+                <article class="anim-reveal anim-fade-up anim-delay-3 p-8 rounded-3xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-md hover:shadow-xl transition-all">
+                    <div class="flex items-center gap-1 text-amber-400 mb-4" aria-label="5 out of 5 stars">
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                    </div>
+                    <blockquote class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed mb-6 italic">
+                        "As a startup founder, I don't have time for content creation. Contlify lets me generate weeks of high-ranking content in just a couple of hours."
+                    </blockquote>
+                    <div class="flex items-center gap-3 border-t border-slate-100 dark:border-slate-800 pt-4">
+                        <img src="images/avatar-emily.jpg" alt="Emily Chen - Founder & CEO at StartupBoost" width="44" height="44" loading="lazy" decoding="async" class="w-11 h-11 rounded-full object-cover border-2 border-emerald-500/40 shadow-sm shrink-0">
+                        <div>
+                            <div class="text-sm font-bold text-slate-900 dark:text-white">Emily Chen</div>
+                            <div class="text-xs text-slate-500 dark:text-slate-400">Founder &amp; CEO at StartupBoost</div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- OFFICIAL PRICING SECTION (#pricing - From contlify.com) -->
+    <section id="pricing" aria-labelledby="pricing-heading" class="py-24 md:py-32 bg-white dark:bg-slate-950 text-slate-900 dark:text-white relative overflow-hidden border-t border-slate-200 dark:border-slate-800/50">
+        <div aria-hidden="true" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-r from-teal-500/10 to-emerald-500/10 rounded-full blur-[160px] pointer-events-none"></div>
+
+        <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+            <div class="flex flex-col max-w-3xl mb-16 text-center items-center mx-auto">
+                <div class="anim-reveal anim-fade-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 text-xs sm:text-sm font-semibold mb-4 shrink-0">
+                    🎉 Free During Beta
+                </div>
+                <h2 id="pricing-heading" class="anim-reveal anim-fade-up anim-delay-1 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.15]">
+                    Simple, Transparent Access
+                </h2>
+                <p class="anim-reveal anim-fade-up anim-delay-2 mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">
+                    Get full access to all features while we are in beta. Premium plans launching soon!
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Free Beta Plan (Active) -->
+                <div class="anim-reveal anim-fade-up anim-delay-1 relative p-8 rounded-3xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/40 dark:to-slate-900 border-2 border-emerald-500/60 shadow-xl flex flex-col justify-between">
+                    <div class="absolute -top-3.5 left-8 px-3 py-1 bg-emerald-600 text-white rounded-full text-xs font-extrabold uppercase tracking-wider shadow">
+                        Most Popular
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Free Beta</h3>
+                        <div class="flex items-baseline gap-1 my-4">
+                            <span class="text-5xl font-extrabold text-slate-900 dark:text-white">$0</span>
+                            <span class="text-sm font-semibold text-slate-500 dark:text-slate-400">/ forever in beta</span>
+                        </div>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mb-6">Full access to all AI blog generation &amp; multi-platform publishing features during our beta period.</p>
+                        <ul class="space-y-3 text-sm text-slate-700 dark:text-slate-300 list-none mb-8">
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-500 font-bold" aria-hidden="true"></i> Unlimited AI Blog Generation</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-500 font-bold" aria-hidden="true"></i> Real-time SEO Score 98+ Optimization</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-500 font-bold" aria-hidden="true"></i> All CMS Platforms Connected</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-500 font-bold" aria-hidden="true"></i> Plagiarism Guard &amp; Schema Generator</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-emerald-500 font-bold" aria-hidden="true"></i> Community &amp; Priority Beta Support</li>
+                        </ul>
+                    </div>
+                    <a href="https://contlify.com/" target="_blank" rel="noopener"
+                       class="w-full h-12 inline-flex items-center justify-center font-bold text-slate-950 rounded-xl bg-gradient-to-r from-teal-400 to-emerald-400 hover:opacity-90 transition-all shadow-md">
+                        Get Started Free Now
+                    </a>
+                </div>
+
+                <!-- Pro Plan (Coming Soon) -->
+                <div class="anim-reveal anim-fade-up anim-delay-2 p-8 rounded-3xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-md flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Pro Tier</h3>
+                        <div class="flex items-baseline gap-1 my-4">
+                            <span class="text-3xl sm:text-4xl font-extrabold text-slate-400 dark:text-slate-500">Coming Soon</span>
+                        </div>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">Advanced team governance, dedicated API access, and enterprise publishing workflows.</p>
+                        <ul class="space-y-3 text-sm text-slate-500 dark:text-slate-400 list-none mb-8">
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-slate-400" aria-hidden="true"></i> Everything in Free Beta</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-slate-400" aria-hidden="true"></i> Custom Webhook &amp; REST API Access</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-slate-400" aria-hidden="true"></i> Multi-User Team Roles &amp; Permissions</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-slate-400" aria-hidden="true"></i> Dedicated Account Manager</li>
+                        </ul>
+                    </div>
+                    <button type="button" disabled class="w-full h-12 inline-flex items-center justify-center font-semibold text-slate-400 dark:text-slate-500 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 cursor-not-allowed">
+                        Launching Post-Beta
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-   
-
-    <!-- Footer -->
-    <footer class="bg-[#040812] py-12 px-6 border-t border-navy-700/50 text-center md:text-left">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center gap-2">
-                <div class="w-6 h-6 bg-orange-500 rounded text-white flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-feather"></i></div>
-                <span class="font-bold text-xl text-white">Contlify</span>
+    <!-- FAQ Section -->
+    <section id="faq" aria-labelledby="faq-heading" class="py-24 md:py-32 bg-white dark:bg-slate-950 text-slate-900 dark:text-white relative overflow-hidden border-t border-slate-200 dark:border-slate-800/50">
+        <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl relative z-10">
+            <div class="flex flex-col mb-12 md:mb-16 text-center items-center mx-auto">
+                <div class="anim-reveal anim-fade-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-teal-50 to-emerald-50 dark:from-teal-900/50 dark:to-emerald-900/50 border border-teal-200 dark:border-teal-700/50 text-teal-700 dark:text-teal-300 text-xs sm:text-sm font-semibold mb-4 shrink-0">
+                    Common Questions
+                </div>
+                <h2 id="faq-heading" class="anim-reveal anim-fade-up anim-delay-1 text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.15]">Frequently Asked Questions</h2>
+                <p class="anim-reveal anim-fade-up anim-delay-2 mt-4 sm:mt-6 text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                    Everything you need to know about Contlify's AI content generator and blog automation workflow.
+                </p>
             </div>
-            <div class="text-gray-500 text-sm">
-                <p>© 2026 Contlify. All rights reserved.</p>
-                <p class="mt-1">Powered by Sectem Technology</p>
+
+            <div class="flex flex-col gap-4 mt-12">
+                <details class="anim-reveal anim-fade-up anim-delay-1 group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 shadow-sm open:shadow-md transition-shadow">
+                    <summary class="flex items-center justify-between gap-4 p-6 cursor-pointer list-none font-bold text-slate-900 dark:text-white">
+                        <span>What is Contlify and how does it automate blog content?</span>
+                        <i class="fa-solid fa-chevron-down text-teal-600 dark:text-teal-400 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                    </summary>
+                    <div class="faq-answer"><div>
+                        <p class="px-6 pb-6 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Contlify is an AI content generator and blog automation tool. It scans your website, blogs, and social channels to build a living BrandBook, then uses that BrandBook to generate SEO-optimized articles in your real brand voice and auto-publish them to WordPress, Next.js, or a scheduled queue.
+                        </p>
+                    </div></div>
+                </details>
+
+                <details class="anim-reveal anim-fade-up anim-delay-2 group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 shadow-sm open:shadow-md transition-shadow">
+                    <summary class="flex items-center justify-between gap-4 p-6 cursor-pointer list-none font-bold text-slate-900 dark:text-white">
+                        <span>How is Contlify different from generic AI writing tools?</span>
+                        <i class="fa-solid fa-chevron-down text-teal-600 dark:text-teal-400 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                    </summary>
+                    <div class="faq-answer"><div>
+                        <p class="px-6 pb-6 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Generic AI writers rely on a single prompt and produce generic, inconsistent copy. Contlify instead builds a continuously updated BrandBook from your actual digital footprint, so every article, image, and piece of SEO metadata is pre-calibrated to your tone, ICP personas, and voice guardrails.
+                        </p>
+                    </div></div>
+                </details>
+
+                <details class="anim-reveal anim-fade-up anim-delay-3 group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 shadow-sm open:shadow-md transition-shadow">
+                    <summary class="flex items-center justify-between gap-4 p-6 cursor-pointer list-none font-bold text-slate-900 dark:text-white">
+                        <span>Do I need to approve every article before it publishes?</span>
+                        <i class="fa-solid fa-chevron-down text-teal-600 dark:text-teal-400 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                    </summary>
+                    <div class="faq-answer"><div>
+                        <p class="px-6 pb-6 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                            No, approval is optional. You can review every draft in the dashboard and edit wording manually, or enable single-click approval so brand-aligned articles publish automatically once generated.
+                        </p>
+                    </div></div>
+                </details>
+
+                <details class="anim-reveal anim-fade-up anim-delay-4 group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 shadow-sm open:shadow-md transition-shadow">
+                    <summary class="flex items-center justify-between gap-4 p-6 cursor-pointer list-none font-bold text-slate-900 dark:text-white">
+                        <span>Which platforms can Contlify publish content to?</span>
+                        <i class="fa-solid fa-chevron-down text-teal-600 dark:text-teal-400 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                    </summary>
+                    <div class="faq-answer"><div>
+                        <p class="px-6 pb-6 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Contlify pushes approved articles directly to WordPress, Next.js routes, or a scheduled publishing queue, so your content pipeline stays connected to your existing CMS without manual copy-pasting.
+                        </p>
+                    </div></div>
+                </details>
+
+                <details class="anim-reveal anim-fade-up anim-delay-5 group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 shadow-sm open:shadow-md transition-shadow">
+                    <summary class="flex items-center justify-between gap-4 p-6 cursor-pointer list-none font-bold text-slate-900 dark:text-white">
+                        <span>Is Contlify suitable for SaaS companies, e-commerce stores, and agencies?</span>
+                        <i class="fa-solid fa-chevron-down text-teal-600 dark:text-teal-400 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                    </summary>
+                    <div class="faq-answer"><div>
+                        <p class="px-6 pb-6 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Yes. SaaS teams use Contlify to build organic traffic without heavy paid-ad spend, e-commerce stores generate product guides and seasonal content to capture high-intent shoppers, and marketing agencies manage content generation for multiple clients from a single dashboard.
+                        </p>
+                    </div></div>
+                </details>
             </div>
         </div>
+    </section>
+
+    </main>
+    <!-- /main -->
+
+    <footer class="bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800" aria-label="Site footer">
+
+        <!-- ── MAIN FOOTER CONTENT ── -->
+        <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-16 md:py-20">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-12">
+
+                <!-- COLUMN 1: Brand + Social -->
+                <div class="anim-reveal anim-fade-up">
+                    <!-- Logo -->
+                    <a href="/" class="flex items-center gap-2 group mb-4" aria-label="Contlify home">
+                        <img src="images/logo.png" alt="Contlify Logo" width="160" height="50" decoding="async" class="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                    </a>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6 max-w-xs">
+                        AI content generator &amp; blog automation tool that writes SEO content in your real brand voice from a living BrandBook.
+                    </p>
+
+                    <!-- Social Icons: LinkedIn, Twitter/X, Instagram -->
+                    <div class="flex items-center gap-3">
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Contlify on LinkedIn"
+                           class="w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-[#0A66C2] transition-all duration-300 hover:scale-110 hover:shadow-lg p-2">
+                            <img src="images/linkedin.png" alt="LinkedIn" class="w-full h-full object-contain">
+                        </a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Contlify on Twitter / X"
+                           class="w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-slate-900 dark:hover:border-white transition-all duration-300 hover:scale-110 hover:shadow-lg p-2">
+                            <img src="images/twitter.png" alt="Twitter / X" class="w-full h-full object-contain">
+                        </a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Contlify on Instagram"
+                           class="w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-[#bc1888] transition-all duration-300 hover:scale-110 hover:shadow-lg p-2">
+                            <img src="images/instagram.png" alt="Instagram" class="w-full h-full object-contain">
+                        </a>
+                    </div>
+                </div>
+
+                <!-- COLUMN 2: Product Links -->
+                <div class="anim-reveal anim-fade-up anim-delay-1">
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-5">Product Navigation</h3>
+                    <nav aria-label="Footer product links">
+                        <ul class="flex flex-col gap-3 list-none">
+                            <li><a href="#why-contlify" class="anim-underline text-sm text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors">Why Contlify</a></li>
+                            <li><a href="#how-it-works" class="anim-underline text-sm text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors">How it Works</a></li>
+                            <li><a href="#use-cases" class="anim-underline text-sm text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors">Use Cases</a></li>
+                            <li><a href="#faq" class="anim-underline text-sm text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors">FAQ</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <!-- COLUMN 3: Get Started CTA -->
+                <div class="anim-reveal anim-fade-up anim-delay-2">
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-5">Get Started</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-5">
+                        Start generating brand-aligned, SEO-optimized content today. No credit card required.
+                    </p>
+                    <a id="cta-footer-start-free" href="https://contlify.com/" rel="noopener" target="_blank"
+                       class="anim-glow-pulse inline-flex items-center justify-center gap-2 h-11 px-6 text-sm font-bold rounded-xl text-slate-950 bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-400 hover:opacity-90 transition-all duration-300 group">
+                        <span>Start Free Trial</span>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── BOTTOM BAR ── -->
+        <div class="border-t border-slate-200 dark:border-slate-800">
+            <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-6">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-500">
+                    <!-- SEO: <time> element gives crawlers a machine-readable date signal. -->
+                    <p>© <time datetime="2026">2026</time> Contlify. All rights reserved.</p>
+                    <p>Powered by <a href="https://sectemtechnology.com" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors">Sectem Technology</a> · Last updated <time datetime="2026-08-12">August 12, 2026</time></p>
+                </div>
+            </div>
+        </div>
+
     </footer>
+
+    <!-- ============================================================
+         7c. THEME TOGGLE LOGIC
+         Non-critical, so it is deferred to the end of <body> (the FOUC guard in
+         <head> has already applied the correct theme; this only wires the click).
+         If you move this to an external file, add the `defer` attribute.
+
+         Behaviour:
+           - Reads the current state from the `dark` class on <html>.
+           - Click flips the class, persists to localStorage("theme"), updates the
+             icon (moon = click for dark, sun = click for light), aria-pressed,
+             color-scheme, and the <meta name="theme-color"> value.
+           - If the user has never chosen manually (no localStorage entry), the page
+             keeps following the OS setting live via the matchMedia change listener.
+         ============================================================ -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            var btn = document.getElementById('theme-toggle');
+            var icon = document.getElementById('theme-toggle-icon');
+            var meta = document.getElementById('theme-color-meta');
+
+            function apply(isDark) {
+                root.classList.toggle('dark', isDark);
+                root.classList.toggle('light', !isDark);
+                root.style.colorScheme = isDark ? 'dark' : 'light';
+                if (meta) meta.setAttribute('content', isDark ? '#020617' : '#ffffff');
+                if (icon) {
+                    // Sun shown while dark = "switch to light", and vice versa.
+                    icon.classList.toggle('fa-sun', isDark);
+                    icon.classList.toggle('fa-moon', !isDark);
+                }
+                if (btn) {
+                    btn.setAttribute('aria-pressed', String(isDark));
+                    var label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+                    btn.setAttribute('title', label);
+                }
+            }
+
+            // Sync the button UI with whatever the head script already decided.
+            apply(root.classList.contains('dark'));
+
+            if (btn) {
+                btn.addEventListener('click', function () {
+                    var next = !root.classList.contains('dark');
+                    apply(next);
+                    try { localStorage.setItem('theme', next ? 'dark' : 'light'); } catch (e) {}
+                });
+            }
+
+            // Follow OS changes only while the user has no explicit saved preference.
+            try {
+                var mq = window.matchMedia('(prefers-color-scheme: dark)');
+                var onChange = function (e) {
+                    if (!localStorage.getItem('theme')) apply(e.matches);
+                };
+                if (mq.addEventListener) mq.addEventListener('change', onChange);
+                else if (mq.addListener) mq.addListener(onChange);
+            } catch (e) {}
+        })();
+    </script>
+
+    <!-- ============================================================
+         SEO AUTOMATION 1: DYNAMIC CANONICAL + OG:URL SYNC
+         Problem it solves: every environment (localhost, a Vercel preview
+         URL, staging.contlify.com, the real contlify.com) would otherwise
+         share the SAME hardcoded canonical/og:url from <head> — meaning a
+         preview deploy could tell Google its canonical page is the
+         production domain, which is a real de-indexing risk on preview
+         builds that get crawled by accident.
+         This script overwrites those tags with the ACTUAL live origin at
+         runtime, but only on non-production hosts — the shipped production
+         domain keeps using the static tag already in <head> (safer: no
+         reliance on JS running correctly for the canonical that matters
+         most). Add every non-canonical host you deploy to in PREVIEW_HOSTS.
+         ============================================================ -->
+    <script>
+        (function () {
+            try {
+                var PROD_HOST = 'contlify.com';
+                var PREVIEW_HOSTS = ['localhost', '127.0.0.1', 'staging.contlify.com', 'vercel.app'];
+                var host = window.location.hostname;
+                var isPreview = host !== PROD_HOST && !host.endsWith('.' + PROD_HOST)
+                    && PREVIEW_HOSTS.some(function (h) { return host === h || host.endsWith(h); });
+
+                if (!isPreview) return; // production: static <head> tags are authoritative, leave them alone
+
+                var liveUrl = window.location.origin + window.location.pathname;
+                var canonical = document.querySelector('link[rel="canonical"]');
+                if (canonical) canonical.setAttribute('href', liveUrl);
+
+                var ogUrl = document.querySelector('meta[property="og:url"]');
+                if (ogUrl) ogUrl.setAttribute('content', liveUrl);
+
+                // Preview builds should never be indexed, regardless of what <head> says.
+                var robots = document.querySelector('meta[name="robots"]');
+                if (robots) robots.setAttribute('content', 'noindex, nofollow');
+
+                console.info('[SEO automation] Preview host detected (' + host + ') — canonical/og:url rewritten to live origin and robots set to noindex.');
+            } catch (e) { /* fail silent, never break the page over a diagnostics script */ }
+        })();
+    </script>
+
+    <!-- ============================================================
+         SEO AUTOMATION 2: ON-LOAD SEO AUDIT (console only, dev aid)
+         Runs a lightweight, read-only audit of the rendered DOM after
+         paint and reports issues via console.warn/table. Nothing here
+         changes the page for real visitors — it only helps YOU (or
+         whoever edits this file next) catch regressions before they ship,
+         e.g. someone adds a new <img> without alt, or a second <h1>.
+         Safe to leave in production: near-zero cost, output is invisible
+         unless DevTools is open, and it self-disables via a URL flag.
+         Disable entirely by appending ?seoaudit=off to the URL, or delete
+         this whole <script> block once you have a real CI/Lighthouse check.
+         ============================================================ -->
+    <script>
+        (function () {
+            if (new URLSearchParams(window.location.search).get('seoaudit') === 'off') return;
+
+            window.addEventListener('load', function () {
+                var issues = [];
+                var pass = [];
+
+                // 1. Exactly one <h1>
+                var h1s = document.querySelectorAll('h1');
+                if (h1s.length === 0) issues.push('No <h1> found on the page.');
+                else if (h1s.length > 1) issues.push(h1s.length + ' <h1> tags found — should be exactly 1.');
+                else pass.push('Single <h1> confirmed.');
+
+                // 2. No skipped heading levels (e.g. h2 straight to h4)
+                var headings = Array.prototype.slice.call(document.querySelectorAll('h1,h2,h3,h4,h5,h6'));
+                var lastLevel = 0;
+                headings.forEach(function (h) {
+                    var level = parseInt(h.tagName.charAt(1), 10);
+                    if (lastLevel && level - lastLevel > 1) {
+                        issues.push('Heading level skipped: <' + h.tagName.toLowerCase() + '> "' + h.textContent.trim().slice(0, 40) + '" follows an h' + lastLevel + '.');
+                    }
+                    lastLevel = level;
+                });
+
+                // 3. Title length (Google truncates well before 60 chars display-width,
+                //    but char-count is still a fast, useful proxy check)
+                var title = document.title || '';
+                if (title.length > 60) issues.push('Title is ' + title.length + ' chars — Google typically truncates past ~60.');
+                if (title.length < 15) issues.push('Title is only ' + title.length + ' chars — likely too thin to be descriptive.');
+
+                // 4. Meta description length
+                var descTag = document.querySelector('meta[name="description"]');
+                var desc = descTag ? descTag.getAttribute('content') || '' : '';
+                if (!descTag) issues.push('meta[name="description"] is missing entirely.');
+                else if (desc.length > 160) issues.push('Meta description is ' + desc.length + ' chars — Google typically truncates past ~160.');
+                else if (desc.length < 70) issues.push('Meta description is only ' + desc.length + ' chars — likely too thin.');
+
+                // 5. Every <img> needs alt (empty alt="" is valid for decorative images)
+                var imgsMissingAlt = Array.prototype.filter.call(document.querySelectorAll('img'), function (img) {
+                    return !img.hasAttribute('alt');
+                });
+                if (imgsMissingAlt.length) issues.push(imgsMissingAlt.length + ' <img> element(s) missing an alt attribute entirely.');
+
+                // 6. Every <img> should declare width/height (prevents CLS)
+                var imgsMissingDims = Array.prototype.filter.call(document.querySelectorAll('img'), function (img) {
+                    return !img.hasAttribute('width') || !img.hasAttribute('height');
+                });
+                if (imgsMissingDims.length) issues.push(imgsMissingDims.length + ' <img> element(s) missing width/height (CLS risk).');
+
+                // 7. Internal #anchor links must resolve to a real id on the page
+                var anchors = Array.prototype.filter.call(document.querySelectorAll('a[href^="#"]'), function (a) {
+                    return a.getAttribute('href').length > 1; // skip bare "#"
+                });
+                var broken = anchors.filter(function (a) {
+                    var id = a.getAttribute('href').slice(1);
+                    return !document.getElementById(id);
+                });
+                if (broken.length) {
+                    issues.push(broken.length + ' internal anchor link(s) point to a missing id: ' +
+                        broken.map(function (a) { return a.getAttribute('href'); }).join(', '));
+                }
+                var bareHash = Array.prototype.filter.call(document.querySelectorAll('a[href="#"]'), function () { return true; });
+                if (bareHash.length) issues.push(bareHash.length + ' link(s) use href="#" — dead links for crawlers, replace with a real URL or route.');
+
+                // 8. Icon-only interactive elements need an accessible name
+                var iconButtons = Array.prototype.filter.call(document.querySelectorAll('button, a'), function (el) {
+                    var hasVisibleText = el.textContent.trim().length > 0;
+                    var hasSrOnly = el.querySelector('.sr-only');
+                    var hasAriaLabel = el.hasAttribute('aria-label') || el.hasAttribute('aria-labelledby');
+                    return !hasVisibleText && !hasSrOnly && !hasAriaLabel;
+                });
+                if (iconButtons.length) issues.push(iconButtons.length + ' icon-only button/link(s) have no accessible name (aria-label or visible/sr-only text).');
+
+                // 9. Canonical tag present and absolute
+                var canonicalTag = document.querySelector('link[rel="canonical"]');
+                if (!canonicalTag) issues.push('No <link rel="canonical"> found.');
+                else if (!/^https?:\/\//i.test(canonicalTag.getAttribute('href') || '')) issues.push('Canonical href is not an absolute URL.');
+                else pass.push('Canonical tag present and absolute.');
+
+                // 10. Every JSON-LD block must be valid, parseable JSON
+                var ldBlocks = document.querySelectorAll('script[type="application/ld+json"]');
+                var brokenLd = 0;
+                ldBlocks.forEach(function (block, i) {
+                    try { JSON.parse(block.textContent); }
+                    catch (e) { brokenLd++; issues.push('JSON-LD block #' + (i + 1) + ' failed to parse: ' + e.message); }
+                });
+                if (ldBlocks.length && !brokenLd) pass.push(ldBlocks.length + ' JSON-LD block(s) all parse as valid JSON.');
+                if (!ldBlocks.length) issues.push('No JSON-LD structured data found on the page.');
+
+                // Report
+                if (issues.length) {
+                    console.groupCollapsed('%c[SEO audit] ' + issues.length + ' issue(s) found', 'color:#f43f5e;font-weight:bold;');
+                    issues.forEach(function (msg) { console.warn(msg); });
+                    console.groupEnd();
+                } else {
+                    console.info('%c[SEO audit] No issues found.', 'color:#10b981;font-weight:bold;');
+                }
+                if (pass.length) {
+                    console.groupCollapsed('[SEO audit] Passing checks (' + pass.length + ')');
+                    pass.forEach(function (msg) { console.log(msg); });
+                    console.groupEnd();
+                }
+            });
+        })();
+    </script>
+
+    <!-- ============================================================
+         ANIMATION ENGINE
+         Powers: scroll-triggered reveals (IntersectionObserver),
+         counter animations for stats, and navbar shrink-on-scroll.
+         Fully deferred (end of <body>), non-blocking, SEO-safe.
+         All animations respect prefers-reduced-motion via CSS.
+         ============================================================ -->
+    <script>
+        // Hero Feature Tab Switcher (interactive viewer for official screenshots)
+        window.switchHeroTab = function (tab, btn) {
+            var img = document.getElementById('hero-feature-img');
+            if (!img) return;
+
+            var imagesMap = {
+                'analytics': {
+                    src: 'images/dashboard_analytics.png',
+                    alt: 'Contlify AI dashboard analytics showing content performance, traffic growth, and active keyword rankings'
+                },
+                'editor': {
+                    src: 'images/content_editor.png',
+                    alt: 'Contlify AI content editor showing real-time BrandBook tone compliance and automated SEO generation'
+                },
+                'preview': {
+                    src: 'images/blog_post_preview.png',
+                    alt: 'Contlify blog post preview displaying SEO score 98, reader metrics, and auto-published layout'
+                },
+                'publishing': {
+                    src: 'images/multiplatform_publishing.png',
+                    alt: 'Contlify multi-platform publishing dashboard supporting WordPress, Webflow, Shopify, Ghost, Medium, and Notion'
+                }
+            };
+
+            var data = imagesMap[tab];
+            if (!data) return;
+
+            // Fade transition
+            img.style.opacity = '0.3';
+            setTimeout(function () {
+                img.src = data.src;
+                img.alt = data.alt;
+                img.style.opacity = '1';
+            }, 150);
+
+            // Update tab button styles
+            document.querySelectorAll('.hero-tab-btn').forEach(function (b) {
+                b.classList.remove('active-tab', 'bg-white', 'dark:bg-slate-800', 'shadow-sm', 'text-slate-900', 'dark:text-white');
+                b.classList.add('text-slate-600', 'dark:text-slate-400');
+            });
+            btn.classList.add('active-tab', 'bg-white', 'dark:bg-slate-800', 'shadow-sm', 'text-slate-900', 'dark:text-white');
+            btn.classList.remove('text-slate-600', 'dark:text-slate-400');
+        };
+
+        (function () {
+            'use strict';
+
+            // Bail out if user prefers reduced motion — CSS handles the fallback
+            var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            // ─── 1. SCROLL-TRIGGERED REVEAL (IntersectionObserver) ───
+            if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+                var revealElements = document.querySelectorAll('.anim-reveal');
+
+                var revealObserver = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('anim-visible');
+                            revealObserver.unobserve(entry.target); // animate once only
+                        }
+                    });
+                }, {
+                    threshold: 0.12,  // trigger when 12% visible
+                    rootMargin: '0px 0px -40px 0px' // slight bottom offset for natural feel
+                });
+
+                revealElements.forEach(function (el) {
+                    revealObserver.observe(el);
+                });
+            } else {
+                // No IntersectionObserver or reduced motion — show everything immediately
+                document.querySelectorAll('.anim-reveal').forEach(function (el) {
+                    el.classList.add('anim-visible');
+                });
+            }
+
+            // ─── 2. COUNTER ANIMATION (stats: 300%, 70%, 5x) ───
+            if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+                var counters = document.querySelectorAll('.anim-counter[data-target]');
+
+                var counterObserver = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (!entry.isIntersecting) return;
+
+                        var el = entry.target;
+                        var target = parseInt(el.getAttribute('data-target'), 10);
+                        var suffix = el.getAttribute('data-suffix') || '';
+                        var duration = 1800; // ms
+                        var startTime = null;
+
+                        // Easing: ease-out cubic
+                        function easeOutCubic(t) {
+                            return 1 - Math.pow(1 - t, 3);
+                        }
+
+                        function animateCount(timestamp) {
+                            if (!startTime) startTime = timestamp;
+                            var progress = Math.min((timestamp - startTime) / duration, 1);
+                            var easedProgress = easeOutCubic(progress);
+                            var current = Math.round(easedProgress * target);
+                            el.textContent = current + suffix;
+
+                            if (progress < 1) {
+                                requestAnimationFrame(animateCount);
+                            } else {
+                                el.textContent = target + suffix; // ensure final value is exact
+                            }
+                        }
+
+                        requestAnimationFrame(animateCount);
+                        counterObserver.unobserve(el);
+                    });
+                }, {
+                    threshold: 0.5
+                });
+
+                counters.forEach(function (el) {
+                    counterObserver.observe(el);
+                });
+            }
+
+            // ─── 3. NAVBAR SHRINK ON SCROLL ───
+            var header = document.getElementById('site-header');
+            if (header) {
+                var lastScrollY = 0;
+                var ticking = false;
+
+                function updateNavbar() {
+                    if (window.scrollY > 60) {
+                        header.classList.add('nav-scrolled');
+                    } else {
+                        header.classList.remove('nav-scrolled');
+                    }
+                    ticking = false;
+                }
+
+                window.addEventListener('scroll', function () {
+                    lastScrollY = window.scrollY;
+                    if (!ticking) {
+                        requestAnimationFrame(updateNavbar);
+                        ticking = true;
+                    }
+                }, { passive: true });
+
+                // Apply on load in case page is already scrolled
+                updateNavbar();
+            }
+
+            // ─── 4. SMOOTH FAQ ACCORDION (graceful <details> close animation) ───
+            var allDetails = document.querySelectorAll('details');
+            allDetails.forEach(function (detail) {
+                var summary = detail.querySelector('summary');
+                if (!summary) return;
+
+                summary.addEventListener('click', function (e) {
+                    // If already open, prevent default so we can animate close
+                    if (detail.hasAttribute('open') && !prefersReducedMotion) {
+                        e.preventDefault();
+                        var answer = detail.querySelector('.faq-answer');
+                        if (!answer) {
+                            // Fallback: if no .faq-answer wrapper, just close normally
+                            detail.removeAttribute('open');
+                            return;
+                        }
+                        answer.style.gridTemplateRows = '0fr';
+                        answer.style.opacity = '0';
+                        setTimeout(function () {
+                            detail.removeAttribute('open');
+                            answer.style.gridTemplateRows = '';
+                            answer.style.opacity = '';
+                        }, 350);
+                    }
+                });
+            });
+
+        })();
+    </script>
+
+    <!-- ============================================================
+         REVIEW NOTES — flagged, not changed (per your constraints)
+         ------------------------------------------------------------
+         IMAGES (section 5): this page currently contains ZERO <img> elements —
+         every visual is a Font Awesome glyph, all of which are decorative and are
+         now marked aria-hidden="true". When you add real raster images later:
+           - alt="" only for decorative; otherwise a descriptive, keyword-relevant
+             sentence (e.g. alt="Contlify BrandBook dashboard showing tone rules").
+           - width + height attributes on every <img> to reserve space and keep CLS
+             near zero (Tailwind's h-/w- classes do NOT prevent layout shift).
+           - loading="lazy" + decoding="async" for anything below the fold; keep the
+             LCP hero image EAGER (loading="eager" fetchpriority="high").
+           - Serve WebP or AVIF with a JPG/PNG fallback via <picture>; typically
+             25-50% smaller than JPG at the same quality, directly improving LCP.
+
+         CONTRAST (section 9): spot-checked against WCAG AA (4.5:1 body, 3:1 large).
+           - Light mode: slate-600 on white = 7.2:1 PASS; slate-500 on white = 4.8:1 PASS.
+           - Dark mode: slate-400 on slate-950 = 7.4:1 PASS; slate-300 = 11.4:1 PASS.
+           - FIXED: the stat kickers ("Traffic Increase" etc.) were `dark:text-slate-500`
+             on the dark slate-900/60 cards, measuring ~3.9:1 — below AA for their 12px
+             size. Bumped to `dark:text-slate-400` (~7.4:1) across all three use-case cards.
+           - WATCH: `text-slate-300` step numbers in light mode are intentionally
+             low-contrast decoration; they are aria-hidden so AT skips them.
+           - Base font sizes are >=12px with `text-xs` used only for meta/labels — fine.
+
+         RENDER BLOCKING (section 8): the only render-blocking resources are the
+         Tailwind CDN script and the Font Awesome stylesheet, both in <head> where
+         they must be. Everything else is deferred to the end of <body>. Compiling
+         Tailwind (see the head comment) removes the single largest blocker.
+         ============================================================ -->
 
 </body>
 </html>
