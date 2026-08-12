@@ -4,7 +4,7 @@ A modern, fully responsive, dark-themed landing page designed for **Contlify**�
 
 ## 🚀 Live Demo
 
-[View the Live Site Here](https://yourusername.github.io/contlify-landing-page/) 
+[View the Live Site Here](https://contlify.github.io/contlify_static_page/) 
 *(Note: Update this URL with your actual GitHub Pages link once deployed)*
 
 ## ✨ Features
